@@ -1,0 +1,189 @@
+/* General Body Styling */
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: Arial, sans-serif;
+}
+
+/* Container Styling */
+.container {
+  max-width: 800px;
+  margin: 60px auto 0;
+  padding: 20px;
+  background-color: #f2e7fe;
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+/* Dropdown Styling */
+.dropdown {
+  position: absolute;
+  top: 70px;
+  right: 30px;
+}
+
+.dropdown-toggle {
+  padding: 10px 15px;
+  background-color: #6332C6;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 5px;
+  padding: 10px;
+  background-color: #FFFFFF;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+  width: 150px;
+  z-index: 1000;
+}
+
+/* Show the dropdown menu when 'show' class is added */
+.dropdown.show .dropdown-menu {
+  display: block;
+}
+
+.dropdown-menu a {
+  text-decoration: none;
+  color: #333333;
+  display: block;
+  padding: 8px 10px;
+  transition: background-color 0.2s;
+}
+
+.dropdown-menu a:hover {
+  background-color: #f0f0f0;
+}
+
+/* Post Styling */
+.posts {
+  margin: 20px auto; 
+  padding: 20px; 
+  max-width: 800px; 
+  border-radius: 8px; 
+}
+
+
+.post {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 20px;
+  margin-bottom: 20px;
+  background-color: #ffffff;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+  
+}
+
+.post:hover {
+  transform: scale(1.02);
+}
+
+.post-image {
+  width: 30%; /* ทำให้กว้าง 100% ของโพสต์ */
+  height: 200px; /* กำหนดความสูงคงที่ */
+  border-radius: 4px; /* ทำมุมให้มน */
+}
+
+
+h2 {
+  font-size: 1.5em;
+  margin-top: 10px;
+  color: #6332C6;
+}
+
+p {
+  color: #555;
+}
+
+.post-content {
+  max-height: 100px;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.post-content.expanded {
+  max-height: none;
+}
+
+button {
+  margin-top: 10px;
+  padding: 8px 12px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+button:hover {
+  background-color: #218838;
+}
+
+/* Comments Section Styling */
+.comments-section {
+  margin-top: 20px;
+}
+
+.comments-section h3 {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+  color: #6332C6;
+}
+
+.comment {
+  border-bottom: 1px solid #ddd;
+  padding: 5px 0;
+}
+
+input {
+  width: calc(100% - 60px);
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+button {
+  padding: 10px 15px;
+  background-color: #6332C6;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #4a239e;
+}
+.back-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  background-color: #6332C6;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 15px;
+  cursor: pointer;
+  
+  transition: opacity 0.3s;
+}
+
+.back-to-top.show {
+  display: block; /* แสดงปุ่มเมื่อทำการ scroll */
+}

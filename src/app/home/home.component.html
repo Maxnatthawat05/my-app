@@ -1,0 +1,134 @@
+<div class="dropdown" (click)="toggleDropdown()" [class.show]="isDropdownVisible">
+    <button class="dropdown-toggle">หมวดหมู่</button>
+    <div class="dropdown-menu">
+      <a href="#">หมวดหมู่ 1</a>
+      <a href="#">หมวดหมู่ 2</a>
+      <a href="#">หมวดหมู่ 3</a>
+      <a href="#">หมวดหมู่ 4</a>
+      <a href="#">หมวดหมู่ 5</a>
+      <a href="#">หมวดหมู่ 6</a>
+    </div>
+  </div>
+  <div class="posts">
+    <button class="back-to-top" (click)="scrollToTop()">กลับไปด้านบน</button>
+    <div class="post">
+      <img src="assets/image3.jpg" alt="Post Image" class="post-image">
+      <h2>ชื่อกระทู้: ตัวเป็นฮิปโป แต่ทำไมเรียกว่าหมูเด้ง</h2>
+      <p>ผู้เขียน: แม็กซ์200</p>
+      <p class="post-content" [class.expanded]="isExpanded">
+        {{ isExpanded ? fullContent : truncatedContent }}
+      </p>
+      <button *ngIf="contentWordCount > 20" (click)="toggleContent()">
+        {{ isExpanded ? 'ซ่อนเนื้อหา' : 'อ่านเพิ่มเติม' }}
+      </button>
+      
+      <div class="comments-section">
+        <h3>คอมเมนต์</h3>
+        <div *ngFor="let comment of comments" class="comment">
+          {{ comment }}
+        </div>
+        <input [(ngModel)]="newComment" placeholder="พิมพ์คอมเมนต์ที่นี่" />
+        <button (click)="addComment()">ส่ง</button>
+      </div>
+    </div>
+    <div class="post">
+      <img src="assets/image3.jpg" alt="Post Image" class="post-image">
+      <h2>ชื่อกระทู้: ตัวเป็นฮิปโป แต่ทำไมเรียกว่าหมูเด้ง</h2>
+      <p>ผู้เขียน: แม็กซ์200</p>
+      <p class="post-content" [class.expanded]="isExpanded">
+        {{ isExpanded ? fullContent : truncatedContent }}
+      </p>
+      <button *ngIf="contentWordCount > 20" (click)="toggleContent()">
+        {{ isExpanded ? 'ซ่อนเนื้อหา' : 'อ่านเพิ่มเติม' }}
+      </button>
+      
+      <div class="comments-section">
+        <h3>คอมเมนต์</h3>
+        <div *ngFor="let comment of comments" class="comment">
+          {{ comment }}
+        </div>
+        <input [(ngModel)]="newComment" placeholder="พิมพ์คอมเมนต์ที่นี่" />
+        <button (click)="addComment()">ส่ง</button>
+      </div>
+    </div>
+    <div class="post">
+      <img src="assets/image3.jpg" alt="Post Image" class="post-image">
+      <h2>ชื่อกระทู้: ตัวเป็นฮิปโป แต่ทำไมเรียกว่าหมูเด้ง</h2>
+      <p>ผู้เขียน: แม็กซ์200</p>
+      <p class="post-content" [class.expanded]="isExpanded">
+        {{ isExpanded ? fullContent : truncatedContent }}
+      </p>
+      <button *ngIf="contentWordCount > 20" (click)="toggleContent()">
+        {{ isExpanded ? 'ซ่อนเนื้อหา' : 'อ่านเพิ่มเติม' }}
+      </button>
+      
+      <div class="comments-section">
+        <h3>คอมเมนต์</h3>
+        <div *ngFor="let comment of comments" class="comment">
+          {{ comment }}
+        </div>
+        <input [(ngModel)]="newComment" placeholder="พิมพ์คอมเมนต์ที่นี่" />
+        <button (click)="addComment()">ส่ง</button>
+        <div class="post">
+          <img src="assets/image3.jpg" alt="Post Image" class="post-image">
+          <h2>ชื่อกระทู้: ตัวเป็นฮิปโป แต่ทำไมเรียกว่าหมูเด้ง</h2>
+          <p>ผู้เขียน: แม็กซ์200</p>
+          <p class="post-content" [class.expanded]="isExpanded">
+            {{ isExpanded ? fullContent : truncatedContent }}
+          </p>
+          <button *ngIf="contentWordCount > 20" (click)="toggleContent()">
+            {{ isExpanded ? 'ซ่อนเนื้อหา' : 'อ่านเพิ่มเติม' }}
+          </button>
+          
+          <div class="comments-section">
+            <h3>คอมเมนต์</h3>
+            <div *ngFor="let comment of comments" class="comment">
+              {{ comment }}
+            </div>
+            <input [(ngModel)]="newComment" placeholder="พิมพ์คอมเมนต์ที่นี่" />
+            <button (click)="addComment()">ส่ง</button>
+          </div>
+        </div>
+        <div class="post">
+          <img src="assets/image3.jpg" alt="Post Image" class="post-image">
+          <h2>ชื่อกระทู้: ตัวเป็นฮิปโป แต่ทำไมเรียกว่าหมูเด้ง</h2>
+          <p>ผู้เขียน: แม็กซ์200</p>
+          <p class="post-content" [class.expanded]="isExpanded">
+            {{ isExpanded ? fullContent : truncatedContent }}
+          </p>
+          <button *ngIf="contentWordCount > 20" (click)="toggleContent()">
+            {{ isExpanded ? 'ซ่อนเนื้อหา' : 'อ่านเพิ่มเติม' }}
+          </button>
+          
+          <div class="comments-section">
+            <h3>คอมเมนต์</h3>
+            <div *ngFor="let comment of comments" class="comment">
+              {{ comment }}
+            </div>
+            <input [(ngModel)]="newComment" placeholder="พิมพ์คอมเมนต์ที่นี่" />
+            <button (click)="addComment()">ส่ง</button>
+          </div>
+        </div>
+        <div class="post">
+          <img src="assets/image3.jpg" alt="Post Image" class="post-image">
+          <h2>ชื่อกระทู้: ตัวเป็นฮิปโป แต่ทำไมเรียกว่าหมูเด้ง</h2>
+          <p>ผู้เขียน: แม็กซ์200</p>
+          <p class="post-content" [class.expanded]="isExpanded">
+            {{ isExpanded ? fullContent : truncatedContent }}
+          </p>
+          <button *ngIf="contentWordCount > 20" (click)="toggleContent()">
+            {{ isExpanded ? 'ซ่อนเนื้อหา' : 'อ่านเพิ่มเติม' }}
+          </button>
+          
+          <div class="comments-section">
+            <h3>คอมเมนต์</h3>
+            <div *ngFor="let comment of comments" class="comment">
+              {{ comment }}
+            </div>
+            <input [(ngModel)]="newComment" placeholder="พิมพ์คอมเมนต์ที่นี่" />
+            <button (click)="addComment()">ส่ง</button>
+          </div>
+      </div>
+    </div>
+  </div>
+

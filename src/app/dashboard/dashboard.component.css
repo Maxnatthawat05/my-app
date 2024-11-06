@@ -1,0 +1,77 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* Header Styling */
+.header {
+  background-color: #e0e0e0;
+  padding: 20px;
+  text-align: center;
+}
+
+.header h1 {
+  color: #000;
+  font-size: 2em;
+  font-weight: bold;
+}
+
+/* Dashboard Container */
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  max-width: 600px;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: #5a3db4; /* Purple background */
+  border-radius: 8px;
+}
+
+/* Dashboard Items as Buttons */
+.dashboard-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px; /* ลด padding เล็กน้อย */
+  border-radius: 8px;
+  color: #000;
+  font-size: 1.2em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.2s;
+  background-color: white; /* สีพื้นหลังของปุ่ม */
+  border: none; /* ไม่มีขอบ */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* เงา */
+}
+
+.dashboard-item:hover {
+  transform: scale(1.05);
+  background-color: rgba(200, 200, 200, 0.5); /* สีพื้นหลังเมื่อ hover */
+}
+
+.icon {
+  font-size: 3em;
+  margin-bottom: 10px;
+}
+
+/* Specific Colors for Each Item */
+.category {
+  background-color: #7fd13b; /* Light green */
+}
+
+.profile {
+  background-color: #4ea8ff; /* Light blue */
+}
+
+.home {
+  background-color: #b7d13b; /* Yellow-green */
+}
+
+.logout {
+  background-color: #ff6b6b; /* Light red */
+}

@@ -1,0 +1,29 @@
+<div class="header">
+    <button class="back-button" (click)="goBack()">←</button>
+    <h1>กระทู้ของคุณ</h1>
+  </div>
+  
+  <div class="container">
+    <button class="add-category-button" (click)="addCategory()">
+      <span>➕</span> เพิ่มกระทู้
+    </button>
+  
+    <table class="thread-table">
+      <thead>
+        <tr>
+          <th>ชื่อกระทู้</th>
+          <th>จัดการ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let thread of threads">
+          <td>{{ thread.name }}</td>
+          <td class="action-buttons">
+            <button class="edit-button" (click)="editThread(thread)">✏️</button>
+            <button class="delete-button" (click)="deleteThread(thread)">🗑️</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

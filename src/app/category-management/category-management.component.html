@@ -1,0 +1,24 @@
+<div class="category-management">
+  <div class="header">
+    <button class="back-button" (click)="goBack()">←</button>
+    <h2>จัดการหมวดหมู่</h2>
+  </div>
+
+  <!-- Form to add or update category -->
+  <form (ngSubmit)="isEditing ? updateCategory() : addNewCategory()" #categoryForm="ngForm">
+    <div class="form-group">
+      <label for="categoryName">ชื่อหมวดหมู่</label>
+      <input type="text" id="categoryName" [(ngModel)]="newCategoryName" name="categoryName" required>
+    </div>
+    <button type="submit">{{ isEditing ? 'อัปเดตหมวดหมู่' : 'เพิ่มหมวดหมู่' }}</button>
+  </form>
+
+  <h3>หมวดหมู่ที่มีอยู่</h3>
+  <ul>
+    <li *ngFor="let category of categories">
+      {{ category }}  
+      <button class="edit-button" (click)="editCategory(category)">แก้ไข</button>
+      <button class="delete-button" (click)="removeCategory(category)">ลบ</button>
+    </li>
+  </ul>
+</div>

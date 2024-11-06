@@ -1,0 +1,27 @@
+<div class="header">
+  <h1>Dashboard</h1>
+</div>
+
+<div class="dashboard">
+  <button class="dashboard-item category" routerLink="/category-management">
+    <i class="icon">📖</i>
+    <p>จัดการหมวดหมู่</p>
+  </button>
+  
+  <button class="dashboard-item profile" routerLink="/edit-profile">
+    <i class="icon">👤</i>
+    <p>ข้อมูลส่วนตัว</p>
+  </button>
+  
+  <button class="dashboard-item home" routerLink="/home">
+    <i class="icon">🏠</i>
+    <p>หน้าหลัก</p>
+  </button>
+  
+  <button class="dashboard-item logout" (click)="logout()">
+    <i class="icon">➡️</i>
+    <p>Logout</p>
+  </button>
+</div>
+
+

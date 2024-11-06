@@ -1,0 +1,100 @@
+.category-management {
+  max-width: 600px; /* กำหนดความกว้างสูงสุด */
+  margin: 20px auto; /* จัดกึ่งกลาง */
+  padding: 20px; /* เว้นระยะภายใน */
+  border: 1px solid #ccc; /* ขอบ */
+  border-radius: 8px; /* มุมโค้ง */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* เงา */
+  background-color: #f9f9f9; /* สีพื้นหลัง */
+}
+
+.category-management h2 {
+  text-align: center; /* จัดกลาง */
+  color: #333; /* สีข้อความ */
+}
+
+.form-group {
+  margin-bottom: 15px; /* เว้นระยะระหว่างฟอร์ม */
+}
+
+label {
+  display: block; /* แสดงให้เต็มบรรทัด */
+  margin-bottom: 5px; /* เว้นระยะระหว่างข้อความกับช่องกรอก */
+  font-weight: bold; /* เน้นข้อความ */
+}
+
+input[type="text"] {
+  width: 100%; /* ความกว้างเต็ม */
+  padding: 10px; /* เว้นระยะภายใน */
+  border: 1px solid #ccc; /* ขอบ */
+  border-radius: 4px; /* มุมโค้ง */
+  font-size: 16px; /* ขนาดข้อความ */
+  transition: border-color 0.3s; /* เพิ่มเอฟเฟกต์การเปลี่ยนสีขอบ */
+}
+
+input[type="text"]:focus {
+  border-color: #007bff; /* สีเมื่อถูกเลือก */
+  outline: none; /* ไม่มีเส้นขอบ */
+}
+
+button {
+  padding: 10px 15px; /* เว้นระยะภายใน */
+  border: none; /* ไม่มีขอบ */
+  border-radius: 4px; /* มุมโค้ง */
+  background-color: #007bff; /* สีพื้นหลังปุ่ม */
+  color: white; /* สีข้อความ */
+  font-size: 16px; /* ขนาดข้อความ */
+  cursor: pointer; /* เปลี่ยนรูปเมาส์ */
+  transition: background-color 0.3s; /* เอฟเฟกต์การเปลี่ยนสี */
+}
+
+button:hover {
+  background-color: #0056b3; /* สีเมื่อวางเมาส์เหนือปุ่ม */
+}
+
+h3 {
+  margin-top: 20px; /* เว้นระยะบน */
+  margin-bottom: 10px; /* เว้นระยะล่าง */
+  color: #555; /* สีข้อความ */
+}
+
+ul {
+  list-style: none; /* ไม่มีจุดในรายการ */
+  padding: 0; /* เคลียร์การเว้นระยะ */
+}
+
+li {
+  display: flex; /* แสดงรายการในรูปแบบฟลิกซ์ */
+  justify-content: space-between; /* จัดให้มีช่องว่างระหว่างรายการ */
+  align-items: center; /* จัดกลางในแนวตั้ง */
+  padding: 10px; /* เว้นระยะภายใน */
+  border-bottom: 1px solid #eee; /* ขอบล่าง */
+}
+
+li:last-child {
+  border-bottom: none; /* ไม่แสดงขอบล่างในรายการสุดท้าย */
+}
+
+/* ปรับ CSS สำหรับปุ่มแก้ไขและปุ่มลบ */
+.edit-button {
+  background-color: #007bff; /* สีพื้นหลังปุ่มแก้ไข */
+}
+
+.delete-button {
+  background-color: #dc3545; /* สีแดงสำหรับปุ่มลบ */
+}
+
+.delete-button:hover {
+  background-color: #c82333; /* สีเมื่อวางเมาส์เหนือปุ่มลบ */
+}
+
+/* จัดให้ปุ่มอยู่ชิดขวา */
+li {
+  justify-content: space-between; /* จัดให้รายการมีช่องว่างระหว่างข้อความและปุ่ม */
+}
+
+/* กำหนดให้ข้อความอยู่ชิดซ้าย */
+li span {
+  flex-grow: 1; /* ขยายให้ข้อความใช้พื้นที่ว่าง */
+  text-align: left; /* จัดข้อความไปที่ซ้าย */
+}

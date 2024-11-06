@@ -1,0 +1,102 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0e9ff; /* Light purple background */
+  color: #000;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.container {
+  width: 90%;
+  max-width: 400px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.back-button {
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: #6332C6; /* Dark purple color */
+  cursor: pointer;
+  margin-right: 15px;
+}
+
+.header h1 {
+  font-size: 26px;
+  color: #6332C6; /* Dark purple color */
+  margin: 0;
+}
+
+.user-icon {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.user-icon .icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 3px solid #6332C6; /* Dark purple border around the icon */
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #6332C6; /* Dark purple color for labels */
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"] {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  font-size: 16px;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
+.form-group input[type="password"]:focus {
+  outline: none;
+  border-color: #6332C6; /* Focus effect with dark purple */
+}
+
+.button-group {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.save-button {
+  padding: 12px 25px;
+  font-size: 16px;
+  background-color: #6332C6; /* Dark purple background */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.save-button:hover {
+  background-color: #521b99; /* Darker purple for hover effect */
+}

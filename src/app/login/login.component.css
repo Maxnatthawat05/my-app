@@ -1,0 +1,85 @@
+/* Body Styling */
+body {
+  font-family: 'Arial', sans-serif; /* ใช้ฟอนต์ที่สวยงาม */
+  background-color: #F0E68C; /* เปลี่ยนสีพื้นหลังให้สดใส */
+}
+
+/* Main Container */
+.container { 
+  margin: 0 auto; /* จัดกลาง */
+  padding: 20px; /* Padding รอบๆ */
+  width: 100%; 
+  max-width: 100vw; /* Ensures it covers the full viewport width */
+}
+
+/* Form Container */
+form {
+  max-width: 400px; /* จำกัดความกว้างของฟอร์ม */
+  margin: auto; /* จัดกลาง */
+  padding: 20px; /* Padding ภายใน */
+  background-color: white; /* สีพื้นหลังของฟอร์ม */
+  border-radius: 8px; /* มุมโค้ง */
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1); /* เงาเล็กน้อย */
+}
+
+/* Form Heading */
+h2 {
+  text-align: center; /* จัดกลาง */
+  color: #6332C6; /* สีหัวเรื่อง */
+}
+
+/* Input Fields */
+input {
+  width: 94.5%; /* กว้างเต็มพื้นที่ */
+  padding: 10px; /* Padding */
+  border: 1px solid #6332C6; /* ขอบสีฟ้า */
+  border-radius: 4px; /* มุมโค้ง */
+  margin: 10px 0; /* ระยะห่างด้านบนและล่าง */
+  transition: border-color 0.3s; /* เปลี่ยนสีขอบ */
+}
+
+input:focus {
+  border-color: #5A29A4; /* สีขอบเมื่อมีการคลิก */
+  outline: none; /* เอาเส้นกรอบออก */
+}
+
+/* Error Message */
+.error-message {
+  color: red; /* สีข้อความเมื่อมีข้อผิดพลาด */
+  font-size: 0.9em; /* ขนาดฟอนต์ */
+}
+
+/* Submit Button */
+button {
+  width: 100%; /* กว้างเต็มพื้นที่ */
+  padding: 10px; /* Padding */
+  background-color: #6332C6; /* สีพื้นหลัง */
+  color: white; /* สีข้อความ */
+  border: none; /* ไม่มีเส้นขอบ */
+  border-radius: 4px; /* มุมโค้ง */
+  cursor: pointer; /* เปลี่ยนเป็นมือเมื่อชี้ */
+  font-weight: bold; /* ตัวหนา */
+  transition: background-color 0.3s; /* เพิ่มการเปลี่ยนสีพื้นหลัง */
+  margin-top: 10px; /* ระยะห่างด้านบน */
+}
+
+button:hover {
+  background-color: #5A29A4; /* เปลี่ยนสีพื้นหลังเมื่อเลื่อนเมาส์ */
+}
+
+/* Navigation Links */
+nav {
+  text-align: center; /* จัดกลางลิงก์ */
+  margin-top: 15px; /* เว้นระยะด้านบน */
+}
+
+nav a {
+  color: #6332C6; /* สีลิงก์ */
+  text-decoration: none; /* เอาเส้นใต้ลิงก์ออก */
+  font-weight: bold; /* ตัวหนา */
+  transition: color 0.3s; /* การเปลี่ยนแปลงสี */
+}
+
+nav a:hover {
+  color: #5A29A4; /* เปลี่ยนสีเมื่อเลื่อนเมาส์ */
+}

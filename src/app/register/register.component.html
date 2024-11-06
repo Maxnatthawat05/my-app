@@ -1,0 +1,44 @@
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+  <h2>สมัครสมาชิก</h2>
+  
+  <div>
+    <label for="username">ชื่อ</label><br>
+    <input id="username" formControlName="username">
+    <div *ngIf="registerForm.get('username')!.invalid && registerForm.get('username')!.touched" class="error-message">
+      Username is required.
+    </div>
+  </div>
+
+  <div>
+    <label for="email">อีเมล</label><br>
+    <input id="email" formControlName="email">
+    <div *ngIf="registerForm.get('email')!.invalid && registerForm.get('email')!.touched" class="error-message">
+      Email is required and must be a valid email.
+    </div>
+  </div>
+
+  <div>
+    <label for="password">รหัสผ่าน</label><br>
+    <input id="password" type="password" formControlName="password">
+    <div *ngIf="registerForm.get('password')!.invalid && registerForm.get('password')!.touched" class="error-message">
+      Password is required.
+    </div>
+  </div>
+
+  <div>
+    <label for="confirmPassword">ยืนยันรหัสผ่าน</label><br>
+    <input id="confirmPassword" type="password" formControlName="confirmPassword">
+    <div *ngIf="registerForm.get('confirmPassword')!.invalid && registerForm.get('confirmPassword')!.touched" class="error-message">
+      Confirm Password is required.
+    </div>
+    <div *ngIf="registerForm.errors?.['mismatch'] && registerForm.get('confirmPassword')!.touched" class="error-message">
+      Passwords must match.
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="registerForm.invalid">สมัครสมาชิก</button>
+</form>
+
+<nav>
+  <a routerLink="/login">เข้าสู่ระบบ</a>
+</nav>
