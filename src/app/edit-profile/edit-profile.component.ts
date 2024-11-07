@@ -9,13 +9,13 @@ import { Router } from '@angular/router';
 })
 export class EditProfileComponent implements OnInit {
   user: User = {
-    id:'',
+    id: '',
     username: localStorage.getItem('username') || '',
-    email: localStorage.getItem('email')|| '',
+    email: localStorage.getItem('email') || '',
     password: '',
     profilePicUrl: localStorage.getItem('profilePicUrl') || 'assets/image3.jpg'
   };
-  
+
   isEditing = false;
 
   constructor(private apiService: ApiService, private router: Router) {}
@@ -28,7 +28,10 @@ export class EditProfileComponent implements OnInit {
     this.apiService.getUserProfile().subscribe(
       (userData: User) => {
         this.user = { ...this.user, ...userData };
-        console.log('User profile loaded:', this.user)
+        if (userData.profilePicUrl) {
+          this.user.profilePicUrl = userData.profilePicUrl;
+          localStorage.setItem('profilePicUrl', userData.profilePicUrl);
+        }
       },
       (error) => console.error('Error fetching user profile:', error)
     );
@@ -49,19 +52,17 @@ export class EditProfileComponent implements OnInit {
       password: this.user.password,
       profilePicUrl: this.user.profilePicUrl
     };
-  
+
     this.apiService.updateProfile(updatedData).subscribe(
       (response) => {
         console.log('Profile updated successfully:', response);
         localStorage.setItem('username', updatedData.username!);
-
         localStorage.setItem('profilePicUrl', updatedData.profilePicUrl || 'assets/image4.jpg');
         this.isEditing = false;
       },
       (error) => console.error('Error updating profile:', error)
     );
   }
-  
 
   onFileSelected(event: any) {
     const file = event.target.files[0];

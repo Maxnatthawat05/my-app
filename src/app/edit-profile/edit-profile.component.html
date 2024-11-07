@@ -3,14 +3,14 @@
 </div>
 <div class="container">
   <div class="user-icon">
-    <img [src]="user.profilePicUrl ? user.profilePicUrl : 'assets/image4.jpg'" alt="User Icon" class="icon">
+    <img [src]="user.profilePicUrl || 'assets/image4.jpg'" alt="User Icon" class="icon">
   </div>
 </div>
 
 <div *ngIf="!isEditing">
   <div class="profile-info">
-    <p><strong>ชื่อผู้ใช้:</strong> {{ this.user.username }}</p>
-    <p><strong>อีเมล:</strong> {{ this.user.email }}</p>
+    <p><strong>ชื่อผู้ใช้:</strong> {{ user.username }}</p>
+    <p><strong>อีเมล:</strong> {{ user.email }}</p>
   </div>
   <button class="edit-button" (click)="onEdit()">แก้ไขโปรไฟล์</button>
 </div>

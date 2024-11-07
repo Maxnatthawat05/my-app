@@ -40,7 +40,7 @@ export class ApiService {
   private apiLoginUrl = 'http://192.168.31.33:3001/api/login';
   private apiCategoriesUrl = 'http://192.168.31.33:3001/category/categories';
   private apiPostsUrl = 'http://192.168.31.33:3001/api/posts';
-  private apiUserUrl = 'http://192.168.31.33:3001/user'; // Update to this
+  private apiUserUrl = 'http://192.168.31.33:3001/user/users'; // Update to this
 
 
   constructor(private http: HttpClient) { }
@@ -131,19 +131,19 @@ export class ApiService {
 
 // Method to update the user profile
 updateProfile(updatedData: User): Observable<any> {
-  const headers = this.getAuthHeaders();  // Get authorization headers
-  return this.http.put(`${this.apiUserUrl}/users/`, updatedData, { headers }).pipe(
+  const headers = this.getAuthHeaders();
+  return this.http.put(`${this.apiUserUrl}`, updatedData, { headers }).pipe(
     catchError(this.handleError)
   );
 }
 
 
-  getUserProfile(): Observable<User> {
-    const headers = this.getAuthHeaders(); // Token is included in the headers
-    return this.http.get<User>(`${this.apiUserUrl}`, { headers }).pipe( // Assuming the API endpoint is '/profile'
-      catchError(this.handleError)
-    );
-  }
+getUserProfile(): Observable<User> {
+  const headers = this.getAuthHeaders();
+  return this.http.get<User>(`${this.apiUserUrl}`, { headers }).pipe(
+    catchError(this.handleError)
+  );
+}
   
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Unknown error!';
