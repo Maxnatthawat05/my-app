@@ -10,6 +10,7 @@ import { Router } from '@angular/router'; // นำเข้า Router
 })
 export class LoginComponent {
   loginForm: FormGroup;
+  isLoading: boolean = false;  // ใช้เพื่อแสดงสถานะการโหลด
 
   constructor(
     private fb: FormBuilder, 
@@ -23,44 +24,63 @@ export class LoginComponent {
     });
   }
 
-  // เมื่อผู้ใช้กดส่งฟอร์ม
-  onSubmit() {
-    if (this.loginForm.valid) {
-      console.log(this.loginForm.value);
+  ngOnInit(): void {
+    // ตรวจสอบว่า accessToken และ userRole มีอยู่ใน localStorage หรือไม่
+    const accessToken = localStorage.getItem('accessToken');
+    const userRole = localStorage.getItem('userRole');
 
-      // ส่งข้อมูลเข้าสู่ระบบที่นี่
-      this.apiService.login(this.loginForm.value).subscribe(
-        response => {
-          console.log('Login successful', response);
-
-          // สมมติว่า Token ที่ได้รับมาจากการตอบกลับของ API อยู่ใน response.token
-          const token = response.accessToken;
-
-          // เก็บ Token ลงใน localStorage (หรือ sessionStorage)
-          localStorage.setItem('accessToken', token);
-          console.log('Token stored in localStorage:', localStorage.getItem('accessToken'));
-          
-
-          // ตรวจสอบ role ของผู้ใช้
-          const role = response.role; // ดึง role ของผู้ใช้จาก response
-          if (role === 'ADMIN') { // เปลี่ยนตามโครงสร้างของ response
-            this.router.navigate(['/dashboard']); // นำทางไปยังหน้า dashboard
-          } else if (role === 'USER') {
-            this.router.navigate(['/home']); // นำทางไปยังหน้า home สำหรับผู้ใช้ทั่วไป
-          } else {
-            console.log('Access denied: Invalid role');
-            // คุณสามารถแสดงข้อความแจ้งเตือนหรือทำการนำทางไปยังหน้าอื่นได้
-          }
-        },
-        error => {
-          console.error('Login error', error);
-          // แสดงข้อความข้อผิดพลาดที่นี่
-          alert('Login failed: ' + error); // แสดงข้อผิดพลาดสำหรับการล็อกอิน
-        }
-      );
-    } else {
-      console.log('Form is invalid');
-      alert('Please fill in all fields correctly'); // แสดงข้อผิดพลาดเมื่อฟอร์มไม่ถูกต้อง
+    // ถ้ามี accessToken และ userRole ใน localStorage ให้นำทางไปที่หน้า dashboard โดยไม่ต้องล็อกอินใหม่
+    if (accessToken && userRole) {
+      this.router.navigate(['/dashboard']);
     }
   }
+
+  // เมื่อผู้ใช้กดส่งฟอร์ม
+  // login.component.ts
+onSubmit() {
+  if (this.loginForm.valid) {
+    console.log('Login Form:', this.loginForm.value);  // ตรวจสอบข้อมูลที่ถูกส่งไป
+    this.apiService.login(this.loginForm.value).subscribe(
+      response => {
+        console.log('Login successful:', response);  // ตรวจสอบการตอบกลับจาก API
+
+        const token = response.accessToken;
+        const role = response.role;
+        const username = response.username;
+        const email = response.emailL;
+        console.log(role);
+        console.log(token);
+        console.log(username);
+        console.log(response.emailL);
+        const profilePicUrl = response.profilePicUrl || 'assets/image4.jpg';
+        // ตรวจสอบว่า token และ role ถูกส่งกลับมาจาก API หรือไม่
+        if (token && role) {
+          localStorage.setItem('accessToken', token);
+          localStorage.setItem('userRole', role);
+          localStorage.setItem('username', username);
+          localStorage.setItem('email', email);
+          localStorage.setItem('profilePicUrl', profilePicUrl); 
+          console.log(localStorage.getItem('email'));
+          // นำทางไปยังหน้า dashboard
+          if (role === 'ADMIN') {
+            this.router.navigate(['/dashboard']);
+          } else if (role === 'USER') {
+            this.router.navigate(['/dashboard']);
+          } else {
+            console.log('Invalid role');
+          }
+        } else {
+          console.log('Missing token or role in response');
+          alert('Login failed: Invalid response');
+        }
+      },
+      error => {
+        console.error('Login error:', error);
+        alert('Login failed: ' + error);
+      }
+    );
+  } else {
+    alert('Please fill in all fields correctly');
+  }
+}
 }

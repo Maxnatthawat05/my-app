@@ -7,17 +7,22 @@ import { RegisterComponent } from './register/register.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CategoryManagementComponent } from './category-management/category-management.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { EditPostComponent } from './edit-post/edit-post.component';
+import { AdminGuard } from './admin.guard'; // นำเข้า AdminGuard
+
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'dashboard', component: DashboardComponent },
-  { path: 'category-management', component: CategoryManagementComponent },
+  { path: 'category-management', component: CategoryManagementComponent, canActivate: [AdminGuard] }, // ใช้ guard ในการตรวจสอบสิทธิ์
   { path: 'edit-profile', component: EditProfileComponent },
-  // { path: '', redirectTo: '/home', pathMatch: 'full' }, // เส้นทางเริ่มต้น
-  // { path: '**', redirectTo: '/home' } // เส้นทางสำรองกรณีไม่พบ
+  { path: 'edit-post', component: EditPostComponent },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AdminGuard] },
+  { path: '', redirectTo: '/home', pathMatch: 'full' }
 ];
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

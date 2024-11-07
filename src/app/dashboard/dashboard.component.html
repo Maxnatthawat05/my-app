@@ -3,25 +3,30 @@
 </div>
 
 <div class="dashboard">
-  <button class="dashboard-item category" routerLink="/category-management">
+  <!-- ปุ่มแสดงเฉพาะสำหรับแอดมิน -->
+  <button *ngIf="isAdmin" class="dashboard-item category" routerLink="/category-management">
     <i class="icon">📖</i>
     <p>จัดการหมวดหมู่</p>
   </button>
-  
+
+  <!-- ปุ่มแสดงสำหรับผู้ใช้ทั่วไป -->
+  <button *ngIf="!isAdmin" class="dashboard-item threads" [disabled]="isAdmin" routerLink="/edit-post">
+    <i class="icon">📝</i>
+    <p>กระทู้ของคุณ</p>
+  </button>
+
   <button class="dashboard-item profile" routerLink="/edit-profile">
     <i class="icon">👤</i>
     <p>ข้อมูลส่วนตัว</p>
   </button>
-  
+
   <button class="dashboard-item home" routerLink="/home">
     <i class="icon">🏠</i>
     <p>หน้าหลัก</p>
   </button>
-  
+
   <button class="dashboard-item logout" (click)="logout()">
     <i class="icon">➡️</i>
     <p>Logout</p>
   </button>
 </div>
-
-

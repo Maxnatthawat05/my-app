@@ -1,22 +1,30 @@
 /* General Reset */
 * {
-  margin: 0;
+  margin-top: 0px;
+    margin-right: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, sans-serif;
+  font-family: 'Poppins', sans-serif; /* ใช้ฟอนต์ Poppins ที่ดูทันสมัย */
 }
 
 /* Header Styling */
 .header {
-  background-color: #e0e0e0;
+  background: linear-gradient(135deg, #8e2de2, #4a00e0); /* Gradient จากม่วงเข้มไปม่วงอ่อน */
   padding: 20px;
   text-align: center;
+  border-radius: 10px 10px 0 0; /* มุมโค้งที่ด้านบน */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* เงาที่สวยงาม */
 }
 
 .header h1 {
-  color: #000;
-  font-size: 2em;
-  font-weight: bold;
+  color: #fff;
+  font-size: 2.5em;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px; /* เพิ่มระยะห่างระหว่างตัวอักษร */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4); /* เงาของตัวอักษร */
 }
 
 /* Dashboard Container */
@@ -24,11 +32,15 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 20px;
-  max-width: 600px;
-  margin: 30px auto;
-  padding: 20px;
-  background-color: #5a3db4; /* Purple background */
-  border-radius: 8px;
+  max-width: 500px;
+  margin-top: 20px;
+  margin-right: 0px;
+  margin-bottom:133.5px;
+  margin-left: 510px;
+  padding: 30px;
+  background-color: #f5f5f5;
+  border-radius: 15px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1); /* เงาสุดพิเศษ */
 }
 
 /* Dashboard Items as Buttons */
@@ -37,41 +49,67 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px; /* ลด padding เล็กน้อย */
-  border-radius: 8px;
-  color: #000;
+  padding: 30px;
+  border-radius: 15px;
+  color: #fff;
   font-size: 1.2em;
-  font-weight: bold;
+  font-weight: 600;
   cursor: pointer;
-  transition: transform 0.2s, background-color 0.2s;
-  background-color: white; /* สีพื้นหลังของปุ่ม */
-  border: none; /* ไม่มีขอบ */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* เงา */
+  transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+  background-color: #ffffff; /* พื้นหลังปุ่มสีขาว */
+  border: none;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* เพิ่มเงาของปุ่ม */
+  text-align: center;
 }
 
 .dashboard-item:hover {
-  transform: scale(1.05);
-  background-color: rgba(200, 200, 200, 0.5); /* สีพื้นหลังเมื่อ hover */
+  transform: translateY(-5px);
+  background-color: rgba(255, 255, 255, 0.8); /* สีพื้นหลังเมื่อ hover */
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2); /* เพิ่มเงาเมื่อ hover */
 }
 
 .icon {
-  font-size: 3em;
-  margin-bottom: 10px;
+  font-size: 3.5em;
+  margin-bottom: 15px;
+  transition: transform 0.3s ease;
+}
+
+.dashboard-item:hover .icon {
+  transform: rotate(15deg); /* หมุนไอคอนเมื่อ hover */
 }
 
 /* Specific Colors for Each Item */
 .category {
-  background-color: #7fd13b; /* Light green */
+  background: linear-gradient(135deg, #6dd5ed, #2193b0); /* Gradient ฟ้า */
 }
 
 .profile {
-  background-color: #4ea8ff; /* Light blue */
+  background: linear-gradient(135deg, #f7971e, #ffd200); /* Gradient สีทอง */
 }
 
 .home {
-  background-color: #b7d13b; /* Yellow-green */
+  background: linear-gradient(135deg, #00b09b, #96c93d); /* Gradient เขียว */
 }
 
 .logout {
-  background-color: #ff6b6b; /* Light red */
+  background: linear-gradient(135deg, #ff416c, #ff4b2b); /* Gradient แดง */
+}
+.threads {
+  background: linear-gradient(135deg, #6dd5ed, #2193b0); /* Gradient ฟ้า */
+}
+
+/* Responsive Design: Make it mobile-friendly */
+@media (max-width: 600px) {
+  .dashboard {
+    grid-template-columns: 1fr; /* ให้ปุ่มแสดงในแนวตั้ง */
+    padding: 15px;
+  }
+
+  .dashboard-item {
+    padding: 25px;
+  }
+
+  .header h1 {
+    font-size: 2em; /* ลดขนาดฟอนต์ */
+  }
 }

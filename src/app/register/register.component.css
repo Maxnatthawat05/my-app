@@ -1,4 +1,13 @@
-/* Form Container */
+.container { 
+  margin-top: 100px;
+  margin-right: -10px;
+  margin-bottom: 260px;
+  margin-left: -10px;
+  padding: 20px; /* Padding รอบๆ */
+  width: 100%; 
+  max-width: 100vw; /* Ensures it covers the full viewport width */
+}
+
 form {
   max-width: 400px; /* จำกัดความกว้างของฟอร์ม */
   margin: auto; /* จัดกลาง */
@@ -64,12 +73,12 @@ nav {
 }
 
 nav a {
-  color: #6332C6; /* สีลิงก์ */
+  color: #ffffff; /* สีลิงก์ */
   text-decoration: none; /* เอาเส้นใต้ลิงก์ออก */
   font-weight: bold; /* ตัวหนา */
   transition: color 0.3s; /* การเปลี่ยนแปลงสี */
 }
 
 nav a:hover {
-  color: #5A29A4; /* เปลี่ยนสีเมื่อเลื่อนเมาส์ */
+  color: #696969; /* เปลี่ยนสีเมื่อเลื่อนเมาส์ */
 }

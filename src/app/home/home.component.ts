@@ -1,77 +1,126 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ApiService, Category, Post } from '../api.service'; // นำเข้า ApiService
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent {
-  isExpanded: boolean = false;
-  isDropdownVisible: boolean = false;
+export class HomeComponent implements OnInit {
+  isLoggedIn = false;
+  isDropdownVisible = false;
+  isCommentModalVisible = false;
+  newComment = '';
+  selectedPost: any = {};
+
+  categories: Category[] = [];
+  posts: Post[] = []; // ปรับ posts เป็นแบบ dynamic โดยใช้ข้อมูลจาก API
+
+  constructor(private router: Router, private apiService: ApiService) {}
+
+  ngOnInit(): void {
+    this.getCategories(); // ดึงข้อมูลหมวดหมู่เมื่อ component ถูกสร้าง
+    this.getPosts(); // ดึงข้อมูลโพสต์เมื่อ component ถูกสร้าง
+  }
+
+  // ฟังก์ชันดึงข้อมูลหมวดหมู่
+  getCategories() {
+    this.apiService.getCategories().subscribe(
+      (categories: Category[]) => {
+        this.categories = categories; // เก็บข้อมูลหมวดหมู่ในตัวแปร categories
+      },
+      (error) => {
+        console.error('Error fetching categories', error);
+      }
+    );
+  }
+
+  // ฟังก์ชันดึงข้อมูลโพสต์จาก ApiService
+  getPosts() {
+    this.apiService.getPosts().subscribe(
+      (posts: Post[]) => {
+        this.posts = posts.map(post => ({
+          ...post,
+          isExpanded: false,
+          imageUrl: post.photoUrl || 'assets/default-image.jpg', // หากไม่มีรูปภาพ ให้ใช้ภาพเริ่มต้น
+          datePosted: post.createdAt ? new Date(post.createdAt) : new Date(), // ใช้วันที่จาก API หรือวันที่ปัจจุบัน
+          authorName: post.author.username || 'Unknown', // เพิ่มชื่อผู้โพสต์
+          comments: post.comments || [],
+          content: post.content || '',
+          contentWordCount: post.content ? post.content.split(' ').length : 0, // คำนวณจำนวนคำ
+        }));
+      },
+      (error) => {
+        console.error('Error fetching posts', error);
+      }
+    );
+  }
   
-  fullContent: string = `เมื่อรุ่งอรุณเริ่มต้นใหม่ ท้องฟ้าสว่างไสวด้วยสีสันสดใส สายลมพัดผ่านมาอย่างอ่อนโยน ฟังเสียงนกกาแพนทางเหนือที่ส่งเสียงขับขานในความสดชื่น บนถนนสายเล็ก ๆ ที่ทอดยาวไปยังหมู่บ้านแห่งหนึ่ง มีต้นไม้ใหญ่ตั้งตระหง่านอยู่ข้างทาง ให้ร่มเงาแก่ผู้เดินผ่านไปมา ขณะที่เด็ก ๆ เล่นสนุกสนานอยู่ใต้ร่มไม้ พวกเขาเล่นเกมโยนลูกบอลและหัวเราะเสียงดัง
-
-ในขณะที่บ้านเรือนเรียงรายไปตามแนวถนน มีสวนดอกไม้ที่ปลูกอย่างประณีต ดอกกุหลาบสีแดงสดและดอกทานตะวันที่หันหน้าเข้าหาแสงแดด สร้างบรรยากาศที่สดใสและสวยงาม ในบ้านหลังหนึ่ง มีหญิงสาวคนหนึ่งนั่งอยู่ที่โต๊ะทำงาน เธอเขียนจดหมายให้เพื่อนสนิทด้วยความคิดถึง ในขณะที่มองออกไปนอกหน้าต่าง
-
-ทันใดนั้นก็มีเสียงโทรศัพท์ดังขึ้น ทำให้เธอต้องหยุดมือที่เขียน เธอหยิบโทรศัพท์ขึ้นมาดู พบว่าเป็นเพื่อนของเธอ โทรมาเพื่อนัดหมายว่าจะไปเที่ยวที่ไหนในสุดสัปดาห์นี้ พวกเขาคุยกันเรื่องแผนการเดินทาง และตัดสินใจว่าจะไปเที่ยวทะเลที่อยู่ไม่ไกลนัก
-
-พอถึงวันเสาร์ หญิงสาวตื่นขึ้นมาด้วยความตื่นเต้น แพ็คกระเป๋าและเตรียมอาหารว่างสำหรับการเดินทาง เมื่อเธอถึงจุดนัดพบก็พบเพื่อน ๆ รออยู่ที่นั่น พวกเขาขับรถไปยังทะเลพร้อมเสียงเพลงและเสียงหัวเราะตลอดทาง
-
-เมื่อถึงชายหาด ท้องฟ้าสดใสและทะเลสวยงาม ผู้คนมากมายเดินเล่นตามชายหาดและเล่นน้ำทะเล น้ำทะเลใสแจ๋วทำให้พวกเขารู้สึกสดชื่น หญิงสาวและเพื่อน ๆ ตัดสินใจลงเล่นน้ำและเล่นทราย สร้างปราสาททรายที่มีรูปทรงต่าง ๆ และตกแต่งด้วยเปลือกหอยที่เก็บได้จากชายหาด
-
-ในขณะที่พวกเขากำลังสนุกสนาน อยู่ ๆ ก็มีคลื่นใหญ่มาทำให้ทุกคนหัวเราะและวิ่งหนี น้ำทะเลกระเซ็นไปทั่ว ราวกับว่าโลกนี้เต็มไปด้วยความสุขและความสนุกสนาน ทุกคนใช้เวลากับเพื่อนอย่างเต็มที่ ลืมความเครียดจากการทำงานและการเรียน
-
-เมื่อเวลาผ่านไปอย่างรวดเร็ว พระอาทิตย์เริ่มลับขอบฟ้า สร้างภาพสีสันที่งดงามบนท้องฟ้า หญิงสาวมองไปยังทะเลที่เคลื่อนตัวอย่างสงบและสวยงาม ใจของเธอรู้สึกเต็มเปี่ยมไปด้วยความสุขและความทรงจำดี ๆ ที่เธอจะจดจำไปอีกนาน
-
-หลังจากนั้น พวกเขากลับไปที่บ้านด้วยความรู้สึกเหนื่อย แต่สุขใจ ทุกคนต่างพูดคุยกันถึงความสนุกสนานในวันนั้น และตัดสินใจว่าจะไปเที่ยวทะเลอีกในเร็ว ๆ นี้ เมื่อกลับถึงบ้าน หญิงสาวนั่งลงที่โต๊ะทำงานและเริ่มเขียนความรู้สึกลงในบันทึกของเธอ เธอรู้สึกขอบคุณสำหรับวันหยุดที่เต็มไปด้วยความสนุกสนานและมิตรภาพ
-
-ชีวิตเป็นเรื่องราวที่สวยงาม เต็มไปด้วยประสบการณ์ที่มีค่า การได้ใช้เวลากับคนที่รักและสร้างความทรงจำร่วมกันนั้นคือสิ่งที่มีค่าที่สุดในชีวิต การเดินทางครั้งนี้ไม่เพียงแต่เป็นการพักผ่อน แต่ยังเป็นการเติมเต็มหัวใจและจิตวิญญาณของเธอให้มีชีวิตชีวาอีกครั้ง
-
-เมื่อคืนมาเธอได้ฝันดี ฝันถึงชายหาดและเสียงคลื่นที่ซัดสาด ชีวิตมีความหมายและทุกวันคือโอกาสใหม่ที่จะสร้างประสบการณ์ใหม่ ๆ ในโลกใบนี้ ทุกๆ ครั้งที่เธอออกไปเที่ยวและทำกิจกรรมใหม่ ๆ เธอรู้สึกว่าเธอเติบโตขึ้น ทั้งในด้านความคิดและความรู้สึก
-
-ในขณะที่เธอกำลังนั่งอยู่ที่โต๊ะทำงาน เธอจึงตัดสินใจว่าจะเริ่มวางแผนการเดินทางครั้งถัดไป มันเป็นสิ่งที่ทำให้เธอรู้สึกมีชีวิตชีวาและมีแรงบันดาลใจที่จะค้นหาสิ่งใหม่ ๆ ต่อไป`;
   
-  // ประกาศตัวแปร newComment และ comments
-  newComment: string = '';
-  comments: string[] = [];
-  showBackToTop: boolean = false; // ตัวแปรเพื่อควบคุมการแสดงปุ่ม
 
-
-  get truncatedContent(): string {
-    const words = this.fullContent.split(' ');
-    return words.length > 20 ? words.slice(0, 20).join(' ') + '...' : this.fullContent;
-  }
-
-  get contentWordCount(): number {
-    return this.fullContent.split(' ').length;
-  }
-
-  toggleDropdown() {
-    this.isDropdownVisible = !this.isDropdownVisible;
-  }
-
-  toggleContent() {
-    this.isExpanded = !this.isExpanded;
-  }
-
-  addComment() {
-    if (this.newComment.trim()) {
-      this.comments.push(this.newComment.trim());
-      this.newComment = ''; // Clear the input field
-    }else {
-      alert('กรุณาพิมพ์คอมเมนต์ก่อนส่ง');
+  navigateToProfile(): void {
+    if (this.isLoggedIn) {
+      this.router.navigate(['/dashboard']);
+    } else {
+      this.router.navigate(['/login']);
     }
   }
 
-  // ฟังก์ชันเลื่อนกลับไปด้านบน
+  selectCategory(category: string) {
+    console.log(`Selected category: ${category}`);
+    this.isDropdownVisible = false; // ซ่อน dropdown หลังจากเลือกหมวดหมู่
+  }
+
+  toggleContent(index: number) {
+    this.posts[index].isExpanded = !this.posts[index].isExpanded;
+  }
+
+  showCommentModal(index: number) {
+    this.selectedPost = this.posts[index];
+    this.isCommentModalVisible = true;
+  }
+
+  closeCommentModal() {
+    this.isCommentModalVisible = false;
+  }
+
+  // home.component.ts
+
+addComment() {
+  const username = localStorage.getItem('username') || 'Guest';  // Retrieve username from localStorage or set 'Guest'
+
+  if (this.newComment.trim()) {
+    const comment = {
+      content: this.newComment.trim(),
+      author: { username: username }  // Use the logged-in username
+    };
+
+    // Call the correct API method and pass the API URL and the comment data
+    this.apiService.addComment('', comment).subscribe(
+      (response: any) => {
+        // On success, add the comment to the selected post's comment list
+        this.selectedPost.comments.push(response);
+        this.newComment = '';  // Reset the comment input
+        this.isCommentModalVisible = false;  // Close the comment modal
+      },
+      (error: any) => {
+        console.error('Error adding comment:', error);  // Add error handling
+      }
+    );
+  }
+}
+
+  
   scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // ตรวจสอบตำแหน่งการเลื่อนของหน้าต่าง
-  @HostListener('window:scroll', [])
-  onWindowScroll() {
-    this.showBackToTop = window.scrollY > 200; // แสดงปุ่มเมื่อเลื่อนลงมากกว่า 200px
+  login() {
+    this.isLoggedIn = true;
+  }
+
+  logout() {
+    this.isLoggedIn = false;
   }
 }
-

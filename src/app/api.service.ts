@@ -3,112 +3,155 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
-// กำหนด interface สำหรับข้อมูลผู้ใช้
 export interface User {
-  username?: string; // ปรับให้เป็น optional ถ้าใช้ username
-  email: string;
+  id?: string;
+  username?: string;
+  email?: string;
   password: string;
+  profilePicUrl?: string;
 }
 
 export interface Category {
   name: string;
 }
 
+export interface Post {
+  title: string;
+  author: {
+    username: string;
+    photo?: string;
+  };
+  truncatedContent: string;
+  fullContent: string;
+  contentWordCount: number;
+  isExpanded: boolean; // เพิ่มคุณสมบัตินี้
+  comments: string[];
+  photoUrl?: string;
+  datePosted: Date; // วันและเวลาโพสต์
+  createdAt: string; 
+  content: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
+  private apiRegisterUrl = 'http://192.168.31.33:3001/api/register';
+  private apiLoginUrl = 'http://192.168.31.33:3001/api/login';
+  private apiCategoriesUrl = 'http://192.168.31.33:3001/category/categories';
+  private apiPostsUrl = 'http://192.168.31.33:3001/api/posts';
+  private apiUserUrl = 'http://192.168.31.33:3001/user'; // Update to this
 
-  private apiRegisterUrl = 'http://192.168.11.221:3001/api/register'; // URL ของ API ลงทะเบียน
-  private apiLoginUrl = 'http://192.168.11.221:3001/api/login'; // URL ของ API ล็อกอิน
-  private apiCategoriesUrl = 'http://192.168.11.221:3001/category/categories'; // URL ของ API สำหรับหมวดหมู่
 
   constructor(private http: HttpClient) { }
 
-  // ฟังก์ชันดึง Token จาก localStorage
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('accessToken');
-    console.log('Token from localStorage:', token);
     return new HttpHeaders({
-      'Authorization': token ? `Bearer ${token}` : '' // เพิ่ม Token ใน Header ถ้ามี
+      'Authorization': token ? `Bearer ${token}` : ''
     });
   }
 
-  // ฟังก์ชันเก็บ Token หลังจากผู้ใช้ล็อกอิน
   saveToken(token: string): void {
-    localStorage.setItem('accessToken', token); // เก็บ Token ลงใน localStorage
+    localStorage.setItem('accessToken', token);
   }
 
-  // ฟังก์ชันลบ Token เมื่อผู้ใช้ออกจากระบบ
   removeToken(): void {
-    localStorage.removeItem('accessToken'); // ลบ Token ออกจาก localStorage
+    localStorage.removeItem('accessToken');
   }
 
-  // ส่งคำขอ POST สำหรับลงทะเบียนผู้ใช้
   register(data: User): Observable<any> {
-    const headers = this.getAuthHeaders(); // ใช้ฟังก์ชัน getAuthHeaders ในการดึง Token
+    const headers = this.getAuthHeaders();
     return this.http.post<any>(this.apiRegisterUrl, data, { headers }).pipe(
       catchError(this.handleError)
     );
   }
 
-  // ส่งคำขอ POST สำหรับล็อกอินผู้ใช้
   login(data: { email: string; password: string }): Observable<any> {
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json' // เพิ่ม Content-Type เป็น application/json
+      'Content-Type': 'application/json'
     });
     return this.http.post<any>(this.apiLoginUrl, data, { headers }).pipe(
       catchError(this.handleError)
     );
   }
 
-  // ดึงข้อมูลหมวดหมู่ทั้งหมดจาก API
   getCategories(): Observable<Category[]> {
-    const headers = this.getAuthHeaders(); // ใช้ฟังก์ชัน getAuthHeaders ในการดึง Token
+    const headers = this.getAuthHeaders();
     return this.http.get<Category[]>(this.apiCategoriesUrl, { headers }).pipe(
       catchError(this.handleError)
     );
   }
 
-  // เพิ่มหมวดหมู่ใหม่
+  getPosts(): Observable<Post[]> {
+    const headers = this.getAuthHeaders();
+    return this.http.get<Post[]>(this.apiPostsUrl, { headers }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
   addCategory(category: Category): Observable<any> {
-    const headers = this.getAuthHeaders(); // ใช้ฟังก์ชัน getAuthHeaders ในการดึง Token
+    const headers = this.getAuthHeaders();
     return this.http.post(this.apiCategoriesUrl, category, { headers }).pipe(
       catchError(this.handleError)
     );
   }
 
-  // ลบหมวดหมู่
   deleteCategory(categoryName: string): Observable<any> {
-    const headers = this.getAuthHeaders(); // ใช้ฟังก์ชัน getAuthHeaders ในการดึง Token
+    const headers = this.getAuthHeaders();
     return this.http.delete(`${this.apiCategoriesUrl}/${categoryName}`, { headers }).pipe(
       catchError(this.handleError)
     );
   }
 
-  // อัปเดตหมวดหมู่
   updateCategory(updatedCategory: Category, oldCategoryName: string): Observable<any> {
     const token = localStorage.getItem('accessToken');
+    if (!token) {
+      alert('กรุณาเข้าสู่ระบบก่อน');
+      return new Observable();
+    }
+
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`,
       'Content-Type': 'application/json'
     });
-  
-    // ส่งคำขอ PUT ไปยัง API เพื่ออัปเดตหมวดหมู่
-    return this.http.put(`http://192.168.11.221:3001/category/categories/${oldCategoryName}`, updatedCategory, { headers });
+
+    return this.http.put(`${this.apiCategoriesUrl}/${oldCategoryName}`, updatedCategory, { headers }).pipe(
+      catchError(this.handleError)
+    );
   }
 
+  getComments(postId: string): Observable<any> {
+    return this.http.get(`${this.apiPostsUrl}/posts/${postId}/comments`);
+  }
 
-  // ฟังก์ชันจัดการข้อผิดพลาด
+  addComment(postId: string, commentData: any): Observable<any> {
+    return this.http.post(`${this.apiPostsUrl}/posts/${postId}/comments`, commentData);
+  }
+
+// Method to update the user profile
+updateProfile(updatedData: User): Observable<any> {
+  const headers = this.getAuthHeaders();  // Get authorization headers
+  return this.http.put(`${this.apiUserUrl}/users/`, updatedData, { headers }).pipe(
+    catchError(this.handleError)
+  );
+}
+
+
+  getUserProfile(): Observable<User> {
+    const headers = this.getAuthHeaders(); // Token is included in the headers
+    return this.http.get<User>(`${this.apiUserUrl}`, { headers }).pipe( // Assuming the API endpoint is '/profile'
+      catchError(this.handleError)
+    );
+  }
+  
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Unknown error!';
     if (error.error instanceof ErrorEvent) {
-      // ข้อผิดพลาดเกิดจากฝั่งผู้ใช้
       errorMessage = `Error: ${error.error.message}`;
     } else {
-      // ข้อผิดพลาดเกิดจากฝั่งเซิร์ฟเวอร์
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
-    return throwError(errorMessage); // ส่งคืนข้อความข้อผิดพลาด
+    return throwError(errorMessage);
   }
 }

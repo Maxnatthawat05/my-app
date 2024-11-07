@@ -1,100 +1,153 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* Main Container Styling */
 .category-management {
-  max-width: 600px; /* กำหนดความกว้างสูงสุด */
-  margin: 20px auto; /* จัดกึ่งกลาง */
-  padding: 20px; /* เว้นระยะภายใน */
-  border: 1px solid #ccc; /* ขอบ */
-  border-radius: 8px; /* มุมโค้ง */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* เงา */
-  background-color: #f9f9f9; /* สีพื้นหลัง */
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 30px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background-color: #ffffff;
 }
 
-.category-management h2 {
-  text-align: center; /* จัดกลาง */
-  color: #333; /* สีข้อความ */
+/* Header Styling */
+.header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
+.header .back-button {
+  background-color: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #007bff;
+  margin-right: 10px;
+}
+
+.header h2 {
+  flex-grow: 1;
+  text-align: center;
+  font-size: 1.8em;
+  color: #333;
+}
+
+/* Form Group Styling */
 .form-group {
-  margin-bottom: 15px; /* เว้นระยะระหว่างฟอร์ม */
+  margin-bottom: 20px;
 }
 
 label {
-  display: block; /* แสดงให้เต็มบรรทัด */
-  margin-bottom: 5px; /* เว้นระยะระหว่างข้อความกับช่องกรอก */
-  font-weight: bold; /* เน้นข้อความ */
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #444;
 }
 
 input[type="text"] {
-  width: 100%; /* ความกว้างเต็ม */
-  padding: 10px; /* เว้นระยะภายใน */
-  border: 1px solid #ccc; /* ขอบ */
-  border-radius: 4px; /* มุมโค้ง */
-  font-size: 16px; /* ขนาดข้อความ */
-  transition: border-color 0.3s; /* เพิ่มเอฟเฟกต์การเปลี่ยนสีขอบ */
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  transition: border-color 0.3s ease;
 }
 
 input[type="text"]:focus {
-  border-color: #007bff; /* สีเมื่อถูกเลือก */
-  outline: none; /* ไม่มีเส้นขอบ */
+  border-color: #007bff;
+  outline: none;
 }
 
+/* Button Styling */
 button {
-  padding: 10px 15px; /* เว้นระยะภายใน */
-  border: none; /* ไม่มีขอบ */
-  border-radius: 4px; /* มุมโค้ง */
-  background-color: #007bff; /* สีพื้นหลังปุ่ม */
-  color: white; /* สีข้อความ */
-  font-size: 16px; /* ขนาดข้อความ */
-  cursor: pointer; /* เปลี่ยนรูปเมาส์ */
-  transition: background-color 0.3s; /* เอฟเฟกต์การเปลี่ยนสี */
+  padding: 12px 20px;
+  font-size: 16px;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 10px;
 }
 
 button:hover {
-  background-color: #0056b3; /* สีเมื่อวางเมาส์เหนือปุ่ม */
+  opacity: 0.9;
 }
 
+button[type="submit"] {
+  background-color: #28a745;
+}
+
+/* Existing Categories Styling */
 h3 {
-  margin-top: 20px; /* เว้นระยะบน */
-  margin-bottom: 10px; /* เว้นระยะล่าง */
-  color: #555; /* สีข้อความ */
+  font-size: 1.4em;
+  color: #555;
+  margin-top: 30px;
+  margin-bottom: 15px;
 }
 
 ul {
-  list-style: none; /* ไม่มีจุดในรายการ */
-  padding: 0; /* เคลียร์การเว้นระยะ */
+  list-style: none;
 }
 
 li {
-  display: flex; /* แสดงรายการในรูปแบบฟลิกซ์ */
-  justify-content: space-between; /* จัดให้มีช่องว่างระหว่างรายการ */
-  align-items: center; /* จัดกลางในแนวตั้ง */
-  padding: 10px; /* เว้นระยะภายใน */
-  border-bottom: 1px solid #eee; /* ขอบล่าง */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  transition: background-color 0.2s;
 }
 
-li:last-child {
-  border-bottom: none; /* ไม่แสดงขอบล่างในรายการสุดท้าย */
+li:hover {
+  background-color: #f9f9f9;
 }
 
-/* ปรับ CSS สำหรับปุ่มแก้ไขและปุ่มลบ */
+/* Action Buttons for Each Category */
+.action-buttons {
+  display: flex;
+  gap: 10px;
+}
+
 .edit-button {
-  background-color: #007bff; /* สีพื้นหลังปุ่มแก้ไข */
+  background-color: #ffc107;
 }
 
 .delete-button {
-  background-color: #dc3545; /* สีแดงสำหรับปุ่มลบ */
+  background-color: #dc3545;
+}
+
+.edit-button:hover {
+  background-color: #e0a800;
 }
 
 .delete-button:hover {
-  background-color: #c82333; /* สีเมื่อวางเมาส์เหนือปุ่มลบ */
+  background-color: #c82333;
 }
 
-/* จัดให้ปุ่มอยู่ชิดขวา */
-li {
-  justify-content: space-between; /* จัดให้รายการมีช่องว่างระหว่างข้อความและปุ่ม */
-}
+/* Responsive Design for Mobile */
+@media (max-width: 600px) {
+  .category-management {
+    padding: 20px;
+  }
 
-/* กำหนดให้ข้อความอยู่ชิดซ้าย */
-li span {
-  flex-grow: 1; /* ขยายให้ข้อความใช้พื้นที่ว่าง */
-  text-align: left; /* จัดข้อความไปที่ซ้าย */
+  button {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+  }
+
+  .action-buttons {
+    flex-direction: column;
+  }
 }

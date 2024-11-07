@@ -1,12 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ApiService } from '../api.service';
+import { ApiService, Category } from '../api.service';
 import { HttpErrorResponse } from '@angular/common/http';
-
-// ประกาศ interface Category
-export interface Category {
-  name: string;
-}
 
 @Component({
   selector: 'app-category-management',
@@ -16,16 +11,17 @@ export interface Category {
 export class CategoryManagementComponent implements OnInit {
   categories: string[] = []; // รายการหมวดหมู่ที่มีอยู่
   newCategoryName: string = ''; // ตัวแปรเก็บชื่อหมวดหมู่ใหม่
-  isEditing: boolean = false; // สถานะการแก้ไข
   categoryToEdit: string | null = null; // หมวดหมู่ที่กำลังแก้ไข
+  isEditing: boolean = false; // ตัวแปรเพื่อแสดงแบบฟอร์มแก้ไขหมวดหมู่
 
   // Inject ApiService เข้าไปใน constructor
   constructor(private apiService: ApiService, private router: Router) {}
 
   // Implement ngOnInit to call getCategories on component initialization
-  ngOnInit() {
-    this.getCategories(); // Fetch categories when component is initialized
+  ngOnInit(): void {
+    this.getCategories();  // เรียกใช้งานฟังก์ชัน getCategories
   }
+  
 
   // ฟังก์ชันเพิ่มหมวดหมู่ใหม่
   addNewCategory() {
@@ -98,42 +94,40 @@ export class CategoryManagementComponent implements OnInit {
   }
 
   // ฟังก์ชันอัปเดตหมวดหมู่
-  // category-management.component.ts
-updateCategory() {
-  if (!this.newCategoryName.trim()) {
-    alert('กรุณากรอกชื่อหมวดหมู่');
-    return;
-  }
-
-  const index = this.categories.indexOf(this.categoryToEdit!);
-  if (index > -1) {
-    const updatedCategory: Category = { name: this.newCategoryName.trim() };
-
-    const token = localStorage.getItem('accessToken');
-    if (!token) {
-      alert('กรุณาเข้าสู่ระบบก่อน');
+  updateCategory() {
+    if (!this.newCategoryName.trim()) {
+      alert('กรุณากรอกชื่อหมวดหมู่');
       return;
     }
 
-    // เรียกใช้งานฟังก์ชัน updateCategory จาก ApiService
-    this.apiService.updateCategory(updatedCategory, this.categoryToEdit!).subscribe(
-      (response: any) => {
-        console.log('หมวดหมู่ถูกอัปเดตแล้ว', response);
-        this.categories[index] = this.newCategoryName.trim();
-        this.newCategoryName = '';
-        this.isEditing = false;
-        this.categoryToEdit = null;
-      },
-      (error: HttpErrorResponse) => {
-        console.error('เกิดข้อผิดพลาดในการอัปเดตหมวดหมู่', error);
-      }
-    );
-  }
-}
+    const index = this.categories.indexOf(this.categoryToEdit!);
+    if (index > -1) {
+      const updatedCategory: Category = { name: this.newCategoryName.trim() };
 
+      const token = localStorage.getItem('accessToken');
+      if (!token) {
+        alert('กรุณาเข้าสู่ระบบก่อน');
+        return;
+      }
+
+      // เรียกใช้งานฟังก์ชัน updateCategory จาก ApiService
+      this.apiService.updateCategory(updatedCategory, this.categoryToEdit!).subscribe(
+        (response: any) => {
+          console.log('หมวดหมู่ถูกอัปเดตแล้ว', response);
+          this.categories[index] = this.newCategoryName.trim();
+          this.newCategoryName = '';
+          this.isEditing = false;
+          this.categoryToEdit = null;
+        },
+        (error: HttpErrorResponse) => {
+          console.error('เกิดข้อผิดพลาดในการอัปเดตหมวดหมู่', error);
+        }
+      );
+    }
+  }
 
   // ฟังก์ชันสำหรับการกลับไปที่ dashboard
   goBack() {
     this.router.navigate(['/dashboard']);
-  }  
+  }
 }

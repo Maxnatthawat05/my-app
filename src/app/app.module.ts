@@ -11,9 +11,11 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { HttpClientModule } from '@angular/common/http';
 import { CategoryManagementComponent } from './category-management/category-management.component';
 import { ThreadsComponent } from './threads/threads.component';
-import { CreatePostComponent } from './create-post/create-post.component';
 import { EditPostComponent } from './edit-post/edit-post.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
+
+
+
 
 
 @NgModule({
@@ -25,9 +27,8 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
     DashboardComponent,
     CategoryManagementComponent,
     ThreadsComponent,
-    CreatePostComponent,
     EditPostComponent,
-    EditProfileComponent
+    EditProfileComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,102 +1,126 @@
-body {
-  font-family: Arial, sans-serif;
-  background-color: #f0e9ff; /* Light purple background */
-  color: #000;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-}
-
-.container {
-  width: 90%;
-  max-width: 400px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-}
-
+/* ส่วน Header */
 .header {
-  display: flex;
-  align-items: center;
+  background-color: #4CAF50;
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+  font-size: 24px;
+}
+
+/* ส่วน Container */
+.container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* รูปภาพโปรไฟล์ */
+.user-icon {
+  text-align: center;
   margin-bottom: 20px;
 }
 
-.back-button {
-  background: none;
-  border: none;
-  font-size: 28px;
-  color: #6332C6; /* Dark purple color */
-  cursor: pointer;
-  margin-right: 15px;
-}
-
-.header h1 {
-  font-size: 26px;
-  color: #6332C6; /* Dark purple color */
-  margin: 0;
-}
-
-.user-icon {
-  display: flex;
-  justify-content: center;
-  margin: 20px 0;
-}
-
-.user-icon .icon {
-  width: 80px;
-  height: 80px;
+.user-icon img.icon {
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
-  border: 3px solid #6332C6; /* Dark purple border around the icon */
+  object-fit: cover;
+  border: 3px solid #ddd;
+}
+
+/* ส่วนที่แสดงข้อมูลโปรไฟล์ */
+.profile-info {
+  margin-bottom: 20px;
+}
+
+.profile-info p {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* ปุ่มแก้ไขโปรไฟล์ */
+.edit-button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.edit-button:hover {
+  background-color: #45a049;
+}
+
+/* ฟอร์มแก้ไขโปรไฟล์ */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .form-group {
-  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
-.form-group label {
-  display: block;
+label {
   font-weight: bold;
+  font-size: 14px;
   margin-bottom: 5px;
-  color: #6332C6; /* Dark purple color for labels */
 }
 
-.form-group input[type="text"],
-.form-group input[type="email"],
-.form-group input[type="password"] {
-  width: 100%;
-  padding: 12px;
+input[type="text"], input[type="email"], input[type="password"] {
+  padding: 10px;
+  font-size: 14px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  background-color: #f9f9f9;
-  font-size: 16px;
+  outline: none;
 }
 
-.form-group input[type="text"]:focus,
-.form-group input[type="email"]:focus,
-.form-group input[type="password"]:focus {
-  outline: none;
-  border-color: #6332C6; /* Focus effect with dark purple */
+input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
+  border-color: #4CAF50;
+}
+
+input[type="file"] {
+  font-size: 14px;
 }
 
 .button-group {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
 }
 
-.save-button {
-  padding: 12px 25px;
+button[type="button"], button[type="submit"] {
+  padding: 10px 20px;
   font-size: 16px;
-  background-color: #6332C6; /* Dark purple background */
-  color: #fff;
-  border: none;
-  border-radius: 5px;
   cursor: pointer;
+  border-radius: 5px;
+  border: none;
 }
 
-.save-button:hover {
-  background-color: #521b99; /* Darker purple for hover effect */
+button[type="button"] {
+  background-color: #ccc;
+}
+
+button[type="submit"] {
+  background-color: #4CAF50;
+  color: white;
+}
+
+button[type="button"]:hover {
+  background-color: #bbb;
+}
+
+button[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+button[type="button"]:focus, button[type="submit"]:focus {
+  outline: none;
 }

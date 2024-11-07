@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-edit-post',
@@ -7,29 +6,73 @@ import { Router } from '@angular/router';
   styleUrls: ['./edit-post.component.css']
 })
 export class EditPostComponent {
+  posts = [
+    { title: 'หนังตลกที่น่าสนใจ', category: 'funny', content: 'เนื้อหาหนังตลก' },
+    { title: 'หนังแอคชั่นมันส์สุด', category: 'action', content: 'เนื้อหาหนังแอคชั่น' },
+  ];
+
   post = {
-    category: '',
     title: '',
-    content: '',
-    file: null as File | null
+    category: 'funny',
+    content: ''
   };
 
-  constructor(private router: Router) {}
+  // Correcting the type to allow 'none', 'edit', and 'add'
+  isEditing: 'none' | 'edit' | 'add' = 'none';
+ // Default to 'none' (view mode)
+  editingIndex: number | null = null;
 
-  goBack() {
-    this.router.navigate(['/dashboard']);
-  }  
-
-  onFileSelected(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files[0]) {
-      this.post.file = input.files[0];
+  // Method to return the header text based on the editing state
+  getHeaderText(): string {
+    if (this.isEditing === 'add') {
+      return 'เพิ่มกระทู้ใหม่';  // Adding a new post
+    } else if (this.isEditing === 'edit') {
+      return 'แก้ไขกระทู้';  // Editing an existing post
+    } else {
+      return 'รายการกระทู้';  // Viewing the list of posts
     }
   }
 
+  // Switch to adding a new post
+  startAddPost() {
+    this.isEditing = 'add';  // Set state to 'add'
+    this.post = { title: '', category: 'funny', content: '' };
+    this.editingIndex = null;
+  }
+
+  // Switch to editing an existing post
+  startEditPost(index: number) {
+    this.isEditing = 'edit';  // Set state to 'edit'
+    this.editingIndex = index;
+    this.post = { ...this.posts[index] };
+  }
+
+  // Save the post (new or updated)
   onSave() {
-    console.log('Edited post data:', this.post);
-    // ใส่โค้ดที่ต้องการสำหรับการบันทึกการแก้ไขข้อมูลที่นี่ เช่น การส่งข้อมูลไปยัง server
-    alert('บันทึกการแก้ไขกระทู้เรียบร้อยแล้ว!');
+    if (this.editingIndex === null) {
+      this.posts.push({ ...this.post });
+    } else {
+      this.posts[this.editingIndex] = { ...this.post };
+    }
+
+    this.isEditing = 'none';  // Switch back to 'none' (view mode)
+  }
+
+  // Delete a post
+  deletePost(index: number) {
+    this.posts.splice(index, 1);
+  }
+
+  // Go back (this can be customized to navigate or reset state)
+  goBack() {
+    this.isEditing = 'none';  // Switch back to 'none' (view mode)
+  }
+
+  // Handle file selection
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      // Handle file upload logic here
+    }
   }
 }

@@ -1,134 +1,94 @@
-<div class="dropdown" (click)="toggleDropdown()" [class.show]="isDropdownVisible">
-    <button class="dropdown-toggle">หมวดหมู่</button>
-    <div class="dropdown-menu">
-      <a href="#">หมวดหมู่ 1</a>
-      <a href="#">หมวดหมู่ 2</a>
-      <a href="#">หมวดหมู่ 3</a>
-      <a href="#">หมวดหมู่ 4</a>
-      <a href="#">หมวดหมู่ 5</a>
-      <a href="#">หมวดหมู่ 6</a>
-    </div>
-  </div>
-  <div class="posts">
-    <button class="back-to-top" (click)="scrollToTop()">กลับไปด้านบน</button>
-    <div class="post">
-      <img src="assets/image3.jpg" alt="Post Image" class="post-image">
-      <h2>ชื่อกระทู้: ตัวเป็นฮิปโป แต่ทำไมเรียกว่าหมูเด้ง</h2>
-      <p>ผู้เขียน: แม็กซ์200</p>
-      <p class="post-content" [class.expanded]="isExpanded">
-        {{ isExpanded ? fullContent : truncatedContent }}
-      </p>
-      <button *ngIf="contentWordCount > 20" (click)="toggleContent()">
-        {{ isExpanded ? 'ซ่อนเนื้อหา' : 'อ่านเพิ่มเติม' }}
-      </button>
-      
-      <div class="comments-section">
-        <h3>คอมเมนต์</h3>
-        <div *ngFor="let comment of comments" class="comment">
-          {{ comment }}
-        </div>
-        <input [(ngModel)]="newComment" placeholder="พิมพ์คอมเมนต์ที่นี่" />
-        <button (click)="addComment()">ส่ง</button>
-      </div>
-    </div>
-    <div class="post">
-      <img src="assets/image3.jpg" alt="Post Image" class="post-image">
-      <h2>ชื่อกระทู้: ตัวเป็นฮิปโป แต่ทำไมเรียกว่าหมูเด้ง</h2>
-      <p>ผู้เขียน: แม็กซ์200</p>
-      <p class="post-content" [class.expanded]="isExpanded">
-        {{ isExpanded ? fullContent : truncatedContent }}
-      </p>
-      <button *ngIf="contentWordCount > 20" (click)="toggleContent()">
-        {{ isExpanded ? 'ซ่อนเนื้อหา' : 'อ่านเพิ่มเติม' }}
-      </button>
-      
-      <div class="comments-section">
-        <h3>คอมเมนต์</h3>
-        <div *ngFor="let comment of comments" class="comment">
-          {{ comment }}
-        </div>
-        <input [(ngModel)]="newComment" placeholder="พิมพ์คอมเมนต์ที่นี่" />
-        <button (click)="addComment()">ส่ง</button>
-      </div>
-    </div>
-    <div class="post">
-      <img src="assets/image3.jpg" alt="Post Image" class="post-image">
-      <h2>ชื่อกระทู้: ตัวเป็นฮิปโป แต่ทำไมเรียกว่าหมูเด้ง</h2>
-      <p>ผู้เขียน: แม็กซ์200</p>
-      <p class="post-content" [class.expanded]="isExpanded">
-        {{ isExpanded ? fullContent : truncatedContent }}
-      </p>
-      <button *ngIf="contentWordCount > 20" (click)="toggleContent()">
-        {{ isExpanded ? 'ซ่อนเนื้อหา' : 'อ่านเพิ่มเติม' }}
-      </button>
-      
-      <div class="comments-section">
-        <h3>คอมเมนต์</h3>
-        <div *ngFor="let comment of comments" class="comment">
-          {{ comment }}
-        </div>
-        <input [(ngModel)]="newComment" placeholder="พิมพ์คอมเมนต์ที่นี่" />
-        <button (click)="addComment()">ส่ง</button>
-        <div class="post">
-          <img src="assets/image3.jpg" alt="Post Image" class="post-image">
-          <h2>ชื่อกระทู้: ตัวเป็นฮิปโป แต่ทำไมเรียกว่าหมูเด้ง</h2>
-          <p>ผู้เขียน: แม็กซ์200</p>
-          <p class="post-content" [class.expanded]="isExpanded">
-            {{ isExpanded ? fullContent : truncatedContent }}
-          </p>
-          <button *ngIf="contentWordCount > 20" (click)="toggleContent()">
-            {{ isExpanded ? 'ซ่อนเนื้อหา' : 'อ่านเพิ่มเติม' }}
-          </button>
-          
-          <div class="comments-section">
-            <h3>คอมเมนต์</h3>
-            <div *ngFor="let comment of comments" class="comment">
-              {{ comment }}
-            </div>
-            <input [(ngModel)]="newComment" placeholder="พิมพ์คอมเมนต์ที่นี่" />
-            <button (click)="addComment()">ส่ง</button>
-          </div>
-        </div>
-        <div class="post">
-          <img src="assets/image3.jpg" alt="Post Image" class="post-image">
-          <h2>ชื่อกระทู้: ตัวเป็นฮิปโป แต่ทำไมเรียกว่าหมูเด้ง</h2>
-          <p>ผู้เขียน: แม็กซ์200</p>
-          <p class="post-content" [class.expanded]="isExpanded">
-            {{ isExpanded ? fullContent : truncatedContent }}
-          </p>
-          <button *ngIf="contentWordCount > 20" (click)="toggleContent()">
-            {{ isExpanded ? 'ซ่อนเนื้อหา' : 'อ่านเพิ่มเติม' }}
-          </button>
-          
-          <div class="comments-section">
-            <h3>คอมเมนต์</h3>
-            <div *ngFor="let comment of comments" class="comment">
-              {{ comment }}
-            </div>
-            <input [(ngModel)]="newComment" placeholder="พิมพ์คอมเมนต์ที่นี่" />
-            <button (click)="addComment()">ส่ง</button>
-          </div>
-        </div>
-        <div class="post">
-          <img src="assets/image3.jpg" alt="Post Image" class="post-image">
-          <h2>ชื่อกระทู้: ตัวเป็นฮิปโป แต่ทำไมเรียกว่าหมูเด้ง</h2>
-          <p>ผู้เขียน: แม็กซ์200</p>
-          <p class="post-content" [class.expanded]="isExpanded">
-            {{ isExpanded ? fullContent : truncatedContent }}
-          </p>
-          <button *ngIf="contentWordCount > 20" (click)="toggleContent()">
-            {{ isExpanded ? 'ซ่อนเนื้อหา' : 'อ่านเพิ่มเติม' }}
-          </button>
-          
-          <div class="comments-section">
-            <h3>คอมเมนต์</h3>
-            <div *ngFor="let comment of comments" class="comment">
-              {{ comment }}
-            </div>
-            <input [(ngModel)]="newComment" placeholder="พิมพ์คอมเมนต์ที่นี่" />
-            <button (click)="addComment()">ส่ง</button>
-          </div>
-      </div>
-    </div>
+<div class="container">
+  <div class="header">
+    <h1>หน้าหลัก</h1>
   </div>
 
+  <!-- Layout หลักพร้อม Sidebar และ Main Section -->
+  <div class="content">
+    
+    <!-- Sidebar สำหรับหมวดหมู่ -->
+    <div class="sidebar">
+      <h3>หมวดหมู่</h3>
+      <ul>
+        <!-- ใช้ *ngFor เพื่อแสดงรายการหมวดหมู่ -->
+        <li *ngFor="let category of categories">
+          <a href="#" (click)="selectCategory(category.name)">{{ category.name }}</a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Main Section -->
+    <div class="main-section">
+      <!-- ปุ่ม Category และ Profile -->
+      <div class="header-buttons">
+        <button class="profile-button" (click)="navigateToProfile()">
+          <!-- แสดงรูปโปรไฟล์หรือปุ่ม "Profile" ตามสถานะการล็อกอิน -->
+          <ng-container *ngIf="isLoggedIn">
+            <img src="assets/profile.jpg" alt="Profile" class="profile-image">
+          </ng-container>
+          <ng-container *ngIf="!isLoggedIn">
+            โปรไฟล์
+          </ng-container>
+        </button>
+      </div>
+
+      <div class="posts">
+        <!-- ใช้ *ngFor เพื่อวนลูปแสดงโพสต์ที่ดึงมาจาก API -->
+        <div *ngFor="let post of posts; let i = index" class="post">
+          <!-- แสดงรูปภาพจาก URL ที่ดึงมาจาก API -->
+          <img [src]="'http://192.168.31.33:8080' + post.photoUrl" alt="Post Image" class="post-image" *ngIf="post.photoUrl">
+
+          
+          <!-- แสดงชื่อโพสต์ -->
+          <h2>{{ post.title }}</h2>
+          
+          <!-- แสดงชื่อผู้โพสต์ -->
+          <p>ผู้เขียน: {{ post.author.username }}</p>
+          
+          <!-- แสดงวันที่โพสต์ -->
+          <p>โพสต์เมื่อ: {{ post.datePosted | date: 'dd/MM/yyyy HH:mm' }}</p>
+          
+          <!-- แสดงเนื้อหาของโพสต์ -->
+          <p *ngIf="post.contentWordCount < 100; else moreContent" [class.expanded]="post.isExpanded">
+            {{ post.isExpanded ? post.content : post.content?.substring(0, 100)  }}
+          </p>
+          
+          <ng-template #moreContent>
+            <p *ngIf="post.isExpanded">
+              {{ post.content }}
+            </p>
+          </ng-template>
+          
+          <button *ngIf="post.contentWordCount > 20" (click)="toggleContent(i)">
+            {{ post.isExpanded ? 'ซ่อนเนื้อหา' : 'อ่านเพิ่มเติม' }}
+          </button>
+        
+          <!-- ส่วนแสดงคอมเมนต์ด้วยอิโมจิ -->
+          <div class="emoji-comments">
+            <span (click)="showCommentModal(i)">💬</span>
+          </div>
+        </div>
+      </div>
+      
+      
+
+      <!-- ปุ่มกลับไปด้านบน -->
+      <button class="back-to-top" (click)="scrollToTop()">กลับไปด้านบน</button>
+    </div>
+
+  </div>
+
+  <!-- หน้าต่างแสดงคอมเมนต์ -->
+  <div *ngIf="isCommentModalVisible" class="comment-modal">
+    <div class="modal-content">
+      <h3>คอมเมนต์</h3>
+      <div *ngFor="let comment of selectedPost.comments" class="comment">
+        <!-- แสดงชื่อผู้คอมเมนต์และคอมเมนต์ -->
+        <p><strong>{{ comment.author.username }}</strong>: {{ comment.content }}</p>
+      </div>
+      <input [(ngModel)]="newComment" placeholder="พิมพ์คอมเมนต์ที่นี่" />
+      <button (click)="addComment()">ส่ง</button>
+      <button (click)="closeCommentModal()">ปิด</button>
+    </div>
+  </div>  
+</div>

@@ -9,8 +9,5 @@ import { Router } from '@angular/router'; // นำเข้า Router
 export class AppComponent {
   constructor(private router: Router) {} // สร้าง constructor
 
-  navigateToProfile() {
-    this.router.navigate(['/profile']); // เปลี่ยนเส้นทางไปยังหน้าโปรไฟล์
-    this.router.navigate(['/login']);
-  }
+  
 }
