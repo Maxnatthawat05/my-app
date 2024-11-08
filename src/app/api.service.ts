@@ -1,3 +1,5 @@
+// api.service.ts
+
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
@@ -7,7 +9,7 @@ export interface User {
   id?: string;
   username?: string;
   email?: string;
-  password: string;
+  password?: string; // Make password optional
   profilePicUrl?: string;
 }
 
@@ -24,10 +26,10 @@ export interface Post {
   truncatedContent: string;
   fullContent: string;
   contentWordCount: number;
-  isExpanded: boolean; // เพิ่มคุณสมบัตินี้
+  isExpanded: boolean; // Property for toggling expanded view
   comments: string[];
   photoUrl?: string;
-  datePosted: Date; // วันและเวลาโพสต์
+  datePosted: Date; // Date of post
   createdAt: string; 
   content: string;
 }
@@ -36,19 +38,23 @@ export interface Post {
   providedIn: 'root'
 })
 export class ApiService {
-  private apiRegisterUrl = 'http://192.168.31.33:3001/api/register';
-  private apiLoginUrl = 'http://192.168.31.33:3001/api/login';
-  private apiCategoriesUrl = 'http://192.168.31.33:3001/category/categories';
-  private apiPostsUrl = 'http://192.168.31.33:3001/api/posts';
-  private apiUserUrl = 'http://192.168.31.33:3001/user/users'; // Update to this
-
+  private apiRegisterUrl = 'http://192.168.11.221:3001/api/register';
+  private apiLoginUrl = 'http://192.168.11.221:3001/api/login';
+  private apiCategoriesUrl = 'http://192.168.11.221:3001/category/categories';
+  private apiPostsUrl = 'http://192.168.11.221:3001/api/posts';
+  private apiUserUrl = 'http://192.168.11.221:3001/user/users'; // User API endpoint
+  private apiCommentsUrl = 'http://192.168.11.221:3001/comment/comments'; // Ensure this is the correct URL
 
   constructor(private http: HttpClient) { }
 
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('accessToken');
+    if (!token) {
+      console.log('No token found, check localStorage!');
+    }
     return new HttpHeaders({
-      'Authorization': token ? `Bearer ${token}` : ''
+      'Authorization': token ? `Bearer ${token}` : '',
+      'Content-Type': 'application/json'
     });
   }
 
@@ -84,11 +90,12 @@ export class ApiService {
   }
 
   getPosts(): Observable<Post[]> {
-    const headers = this.getAuthHeaders();
+    const headers = this.getAuthHeaders(); // Headers are set here
     return this.http.get<Post[]>(this.apiPostsUrl, { headers }).pipe(
       catchError(this.handleError)
     );
   }
+  
 
   addCategory(category: Category): Observable<any> {
     const headers = this.getAuthHeaders();
@@ -121,30 +128,34 @@ export class ApiService {
     );
   }
 
-  getComments(postId: string): Observable<any> {
-    return this.http.get(`${this.apiPostsUrl}/posts/${postId}/comments`);
-  }
-
-  addComment(postId: string, commentData: any): Observable<any> {
-    return this.http.post(`${this.apiPostsUrl}/posts/${postId}/comments`, commentData);
-  }
-
-// Method to update the user profile
-updateProfile(updatedData: User): Observable<any> {
-  const headers = this.getAuthHeaders();
-  return this.http.put(`${this.apiUserUrl}`, updatedData, { headers }).pipe(
-    catchError(this.handleError)
-  );
-}
-
-
-getUserProfile(): Observable<User> {
-  const headers = this.getAuthHeaders();
-  return this.http.get<User>(`${this.apiUserUrl}`, { headers }).pipe(
-    catchError(this.handleError)
-  );
-}
+  // Method to add a comment to a post
+  addComment(commentData: any): Observable<any> {
+    const headers = this.getAuthHeaders().set('Content-Type', 'application/json');  // Set headers
   
+    // Log the request data and headers for debugging
+    console.log('Comment API Request:', commentData, headers);
+  
+    return this.http.post(this.apiCommentsUrl, commentData, { headers }).pipe(
+      catchError(this.handleError)
+    );
+  }
+  
+
+  // Method to update user profile
+  updateProfile(updatedData: User): Observable<any> {
+    const headers = this.getAuthHeaders();
+    return this.http.put(this.apiUserUrl, updatedData, { headers }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getUserProfile(): Observable<User> {
+    const headers = this.getAuthHeaders();
+    return this.http.get<User>(this.apiUserUrl, { headers }).pipe(
+      catchError(this.handleError)
+    );
+  }
+
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Unknown error!';
     if (error.error instanceof ErrorEvent) {

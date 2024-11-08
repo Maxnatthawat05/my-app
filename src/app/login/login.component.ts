@@ -37,31 +37,33 @@ export class LoginComponent {
 
   // เมื่อผู้ใช้กดส่งฟอร์ม
   // login.component.ts
-onSubmit() {
-  if (this.loginForm.valid) {
-    console.log('Login Form:', this.loginForm.value);  // ตรวจสอบข้อมูลที่ถูกส่งไป
-    this.apiService.login(this.loginForm.value).subscribe(
-      response => {
-        console.log('Login successful:', response);  // ตรวจสอบการตอบกลับจาก API
-
-        const token = response.accessToken;
-        const role = response.role;
-        const username = response.username;
-        const email = response.emailL;
-        console.log(role);
-        console.log(token);
-        console.log(username);
-        console.log(response.emailL);
-        const profilePicUrl = response.profilePicUrl || 'assets/image4.jpg';
-        // ตรวจสอบว่า token และ role ถูกส่งกลับมาจาก API หรือไม่
-        if (token && role) {
+  onSubmit() {
+    if (this.loginForm.valid) {
+      console.log('Login Form:', this.loginForm.value);
+  
+      this.apiService.login(this.loginForm.value).subscribe(
+        response => {
+          console.log('Login successful:', response);
+  
+          const token = response.accessToken;
+          const role = response.role;
+          const userId = response.userid;  // ใช้ `userid` ที่ได้รับจาก API
+          const username = response.username;
+          const email = response.emailL || response.email;  // คำนึงถึงชื่อคีย์ใน API ("emailL" ในที่นี้)
+          const profilePicUrl = response.profilePicUrl || 'assets/image4.jpg';
+  
+          // เก็บข้อมูลลงใน localStorage
           localStorage.setItem('accessToken', token);
           localStorage.setItem('userRole', role);
+          localStorage.setItem('userId', userId);  // เก็บ userId ใน localStorage
           localStorage.setItem('username', username);
           localStorage.setItem('email', email);
-          localStorage.setItem('profilePicUrl', profilePicUrl); 
-          console.log(localStorage.getItem('email'));
-          // นำทางไปยังหน้า dashboard
+          localStorage.setItem('profilePicUrl', profilePicUrl);
+  
+          // ตรวจสอบการเก็บข้อมูล
+          console.log('User ID stored in localStorage:', localStorage.getItem('userId'));
+  
+          // นำทางไปที่หน้า Dashboard
           if (role === 'ADMIN') {
             this.router.navigate(['/dashboard']);
           } else if (role === 'USER') {
@@ -69,18 +71,15 @@ onSubmit() {
           } else {
             console.log('Invalid role');
           }
-        } else {
-          console.log('Missing token or role in response');
-          alert('Login failed: Invalid response');
+        },
+        error => {
+          console.error('Login error:', error);
+          alert('Login failed: ' + error.message);
         }
-      },
-      error => {
-        console.error('Login error:', error);
-        alert('Login failed: ' + error);
-      }
-    );
-  } else {
-    alert('Please fill in all fields correctly');
+      );
+    } else {
+      alert('Please fill in all fields correctly');
+    }
   }
-}
+  
 }
