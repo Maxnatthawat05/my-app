@@ -12,10 +12,9 @@ export class EditProfileComponent implements OnInit {
     id: '',
     username: localStorage.getItem('username') || '',
     email: localStorage.getItem('email') || '',
-    password: '',
     profilePicUrl: localStorage.getItem('profilePicUrl') || 'assets/image3.jpg'
   };
-
+  newPassword = '';
   isEditing = false;
 
   constructor(private apiService: ApiService, private router: Router) {}
@@ -47,10 +46,8 @@ export class EditProfileComponent implements OnInit {
 
   onSave() {
     const updatedData: User = {
-      username: this.user.username,
-      email: this.user.email,
-      password: this.user.password,
-      profilePicUrl: this.user.profilePicUrl
+      ...this.user,
+      ...(this.newPassword && { password: this.newPassword })  // Include password only if newPassword is non-empty
     };
 
     this.apiService.updateProfile(updatedData).subscribe(
@@ -70,6 +67,11 @@ export class EditProfileComponent implements OnInit {
       const reader = new FileReader();
       reader.onload = () => {
         this.user.profilePicUrl = reader.result as string;
+        // ส่งข้อมูลอัพเดตไปยังเซิร์ฟเวอร์เพื่ออัพเดตโปรไฟล์
+        this.apiService.updateProfile({ profilePicUrl: this.user.profilePicUrl }).subscribe(
+          () => console.log('Profile picture updated successfully'),
+          (error) => console.error('Error updating profile picture:', error)
+        );
       };
       reader.readAsDataURL(file);
     }

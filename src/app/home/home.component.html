@@ -36,7 +36,7 @@
         <!-- ใช้ *ngFor เพื่อวนลูปแสดงโพสต์ที่ดึงมาจาก API -->
         <div *ngFor="let post of posts; let i = index" class="post">
           <!-- แสดงรูปภาพจาก URL ที่ดึงมาจาก API -->
-          <img [src]="'http://192.168.31.33:8080' + post.photoUrl" alt="Post Image" class="post-image" *ngIf="post.photoUrl">
+          <img [src]="'http://192.168.11.221:8080' + post.photoUrl" alt="Post Image" class="post-image" *ngIf="post.photoUrl">
 
           
           <!-- แสดงชื่อโพสต์ -->

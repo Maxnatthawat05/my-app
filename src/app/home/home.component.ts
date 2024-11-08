@@ -40,25 +40,18 @@ export class HomeComponent implements OnInit {
   getPosts() {
     this.apiService.getPosts().subscribe(
       (posts: Post[]) => {
-        this.posts = posts.map(post => ({
-          ...post,
-          isExpanded: false,
-          imageUrl: post.photoUrl || 'assets/default-image.jpg', // หากไม่มีรูปภาพ ให้ใช้ภาพเริ่มต้น
-          datePosted: post.createdAt ? new Date(post.createdAt) : new Date(), // ใช้วันที่จาก API หรือวันที่ปัจจุบัน
-          authorName: post.author.username || 'Unknown', // เพิ่มชื่อผู้โพสต์
-          comments: post.comments || [],
-          content: post.content || '',
-          contentWordCount: post.content ? post.content.split(' ').length : 0, // คำนวณจำนวนคำ
-        }));
+        console.log('Posts from API:', posts);
+        this.posts = posts;
       },
       (error) => {
-        console.error('Error fetching posts', error);
+        console.error('Error fetching posts:', error);
       }
     );
   }
   
   
-
+  
+  
   navigateToProfile(): void {
     if (this.isLoggedIn) {
       this.router.navigate(['/dashboard']);
@@ -87,29 +80,40 @@ export class HomeComponent implements OnInit {
 
   // home.component.ts
 
-addComment() {
-  const username = localStorage.getItem('username') || 'Guest';  // Retrieve username from localStorage or set 'Guest'
-
-  if (this.newComment.trim()) {
-    const comment = {
-      content: this.newComment.trim(),
-      author: { username: username }  // Use the logged-in username
-    };
-
-    // Call the correct API method and pass the API URL and the comment data
-    this.apiService.addComment('', comment).subscribe(
-      (response: any) => {
-        // On success, add the comment to the selected post's comment list
-        this.selectedPost.comments.push(response);
-        this.newComment = '';  // Reset the comment input
-        this.isCommentModalVisible = false;  // Close the comment modal
-      },
-      (error: any) => {
-        console.error('Error adding comment:', error);  // Add error handling
-      }
-    );
+  addComment() {
+    const userId = localStorage.getItem('userId');  // Retrieve userId from localStorage
+    const postId = this.selectedPost.id;            // The postId is from the selected post
+  
+    if (!userId || !postId) {
+      console.error('Missing authorId or postId');  // Check if userId or postId is missing
+      return;  // Prevent sending the comment if ids are missing
+    }
+  
+    if (this.newComment.trim()) {
+      const comment = {
+        content: this.newComment.trim(),
+        authorId: userId,  // Use userId as authorId
+        postId: postId     // Use the selected post's id
+      };
+  
+      // Log the payload for debugging
+      console.log('Comment Payload:', comment);
+  
+      // Call the ApiService with the necessary data
+      this.apiService.addComment(comment).subscribe(
+        (response: any) => {
+          // On success, add the comment to the selected post's comment list
+          this.selectedPost.comments.push(response);
+          this.newComment = '';  // Reset the comment input field
+          this.isCommentModalVisible = false;  // Close the comment modal
+        },
+        (error: any) => {
+          console.error('Error adding comment:', error);  // Log error details
+        }
+      );
+    }
   }
-}
+  
 
   
   scrollToTop() {
