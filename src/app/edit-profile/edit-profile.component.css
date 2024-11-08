@@ -1,126 +1,213 @@
-/* ส่วน Header */
+/* Header styling */
+/* Header styling */
+/* Header container */
 .header {
-  background-color: #4CAF50;
-  color: white;
   text-align: center;
-  padding: 20px 0;
-  font-size: 24px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #ffffff;
+  padding: 40px 0;
+  background: linear-gradient(135deg, rgba(129, 72, 220, 0.9), rgba(120, 201, 255, 0.9), rgba(137, 100, 246, 0.9));
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2), 0 0 20px rgba(120, 201, 255, 0.5);
+  margin: 0;  /* Make the header stretch across the full width */
+  width: 100%;  /* Ensures the header takes up full width */
+  backdrop-filter: blur(6px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
-/* ส่วน Container */
+/* Animation for the rotating background */
+.header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent 50%);
+  animation: rotate 6s linear infinite;
+}
+
+/* Rotate effect */
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Hover effect */
+.header:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3), 0 0 30px rgba(120, 201, 255, 0.6);
+}
+
+/* Header text styling */
+.header h1 {
+  font-size: 40px;
+  color: #2d2d2d;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 0;
+  text-shadow: 3px 5px 10px rgba(0, 0, 0, 0.4), 0 0 10px rgba(255, 255, 255, 0.6);
+  animation: pulse 1.8s ease-in-out infinite alternate;
+}
+
+/* Text glow animation */
+@keyframes pulse {
+  0% {
+    text-shadow: 3px 5px 10px rgba(0, 0, 0, 0.4), 0 0 15px rgba(255, 255, 255, 0.5), 0 0 25px rgba(255, 255, 255, 0.4);
+  }
+  100% {
+    text-shadow: 3px 5px 10px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 255, 255, 0.6), 0 0 40px rgba(255, 255, 255, 0.5);
+  }
+}
+
+
+
+/* Container styling */
 .container {
-  max-width: 800px;
-  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+  max-width: 400px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s;
+  margin-top: 50px;
+  margin-right: 0px;
+  margin-bottom: 247px;
+  margin-left: 540px;
+}
+.container:hover {
+  transform: translateY(-5px);
+}
+
+/* User Icon styling */
+.user-icon {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 20px;
+  position: relative;
+}
+.user-icon .icon {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #007bff;
+  box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+
+/* Add a slight shadow and animation effect to the image */
+.user-icon .icon:hover {
+  box-shadow: 0 6px 12px rgba(0, 123, 255, 0.4);
+  transition: box-shadow 0.3s ease;
+}
+
+
+/* Profile Info */
+.profile-info {
+  text-align: left;
+  width: 100%;
+  margin-bottom: 20px;
+}
+/* Center align for non-editing profile view */
+.profile-info-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
   padding: 20px;
-  background-color: #f4f4f4;
+  max-width: 500px;
+  margin: 0 auto;
+  background-color: #f1f1f1;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* รูปภาพโปรไฟล์ */
-.user-icon {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.user-icon img.icon {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid #ddd;
-}
-
-/* ส่วนที่แสดงข้อมูลโปรไฟล์ */
+/* Profile Information */
 .profile-info {
+  font-size: 16px;
+  color: #333;
   margin-bottom: 20px;
 }
-
 .profile-info p {
-  font-size: 16px;
-  line-height: 1.5;
+  margin: 8px 0;
 }
 
-/* ปุ่มแก้ไขโปรไฟล์ */
+/* Edit Button */
 .edit-button {
-  background-color: #4CAF50;
-  color: white;
   padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-  border-radius: 5px;
   font-size: 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
   transition: background-color 0.3s;
 }
-
 .edit-button:hover {
-  background-color: #45a049;
+  background-color: #0056b3;
 }
 
-/* ฟอร์มแก้ไขโปรไฟล์ */
+
+/* Form Layout */
 form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  width: 100%;
 }
-
 .form-group {
-  display: flex;
-  flex-direction: column;
+  margin-bottom: 15px;
 }
-
-label {
-  font-weight: bold;
+.form-group label {
   font-size: 14px;
+  color: #333;
+  display: block;
   margin-bottom: 5px;
 }
-
-input[type="text"], input[type="email"], input[type="password"] {
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"],
+.form-group input[type="file"] {
+  width: 100%;
   padding: 10px;
   font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  outline: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
 }
 
-input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus {
-  border-color: #4CAF50;
-}
-
-input[type="file"] {
-  font-size: 14px;
-}
-
+/* Button Group */
 .button-group {
   display: flex;
   justify-content: space-between;
+  margin-top: 20px;
 }
-
-button[type="button"], button[type="submit"] {
-  padding: 10px 20px;
+.button-group button {
+  padding: 8px 16px;
   font-size: 16px;
+  border-radius: 4px;
   cursor: pointer;
-  border-radius: 5px;
   border: none;
 }
-
-button[type="button"] {
+.button-group button[type="button"] {
   background-color: #ccc;
+  color: #333;
 }
-
-button[type="submit"] {
-  background-color: #4CAF50;
-  color: white;
-}
-
-button[type="button"]:hover {
+.button-group button[type="button"]:hover {
   background-color: #bbb;
 }
-
-button[type="submit"]:hover {
-  background-color: #45a049;
+.button-group button[type="submit"] {
+  background-color: #28a745;
+  color: #fff;
 }
-
-button[type="button"]:focus, button[type="submit"]:focus {
-  outline: none;
+.button-group button[type="submit"]:hover {
+  background-color: #218838;
 }

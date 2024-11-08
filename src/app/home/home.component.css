@@ -9,31 +9,78 @@
   flex-direction: column;
 }
 /* Header */
+/* Header container */
 .header {
   text-align: center;
-  font-size: 0.5rem;
   font-size: 1rem;
   font-weight: bold;
   color: #ffffff;
-  padding: 0px;
-  margin-top: -20px;
-  margin-right: -20px;
-  margin-left: -20px;
-  background: linear-gradient(135deg, #8e2de2, #4a00e0);
-  border-radius: 10px 10px 0 0;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  padding: 40px 0;
+  background: linear-gradient(135deg, rgba(124, 72, 220, 0.9), rgba(120, 201, 255, 0.9), rgba(100, 181, 246, 0.9));
+  border-radius: 15px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2), 0 0 20px rgba(120, 201, 255, 0.5);
+  margin: 0;  /* Make the header stretch across the full width */
+  width: 100%;  /* Ensures the header takes up full width */
+  backdrop-filter: blur(6px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
+
+/* Animation for the rotating background */
+.header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent 50%);
+  animation: rotate 6s linear infinite;
+}
+
+/* Rotate effect */
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Hover effect */
+.header:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3), 0 0 30px rgba(120, 201, 255, 0.6);
+}
+
+/* Header text styling */
+.header h1 {
+  font-size: 40px;
+  color: #2d2d2d;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 0;
+  text-shadow: 3px 5px 10px rgba(0, 0, 0, 0.4), 0 0 10px rgba(255, 255, 255, 0.6);
+  animation: pulse 1.8s ease-in-out infinite alternate;
+}
+
+/* Text glow animation */
+@keyframes pulse {
+  0% {
+    text-shadow: 3px 5px 10px rgba(0, 0, 0, 0.4), 0 0 15px rgba(255, 255, 255, 0.5), 0 0 25px rgba(255, 255, 255, 0.4);
+  }
+  100% {
+    text-shadow: 3px 5px 10px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 255, 255, 0.6), 0 0 40px rgba(255, 255, 255, 0.5);
+  }
+}
+
 
 .content {
   display: flex;
   gap: 20px;
-}
-
-/* Header buttons alignment */
-.header-buttons {
-  display: flex;
-  justify-content: space-between;
-  margin: 20px 0;
 }
 
 .category-button, .profile-button {
@@ -268,9 +315,9 @@ button.close-modal:hover {
   border-radius: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   position: fixed;
-  top: 90px; /* ระยะห่างจากด้านบน ตามความสูงของ .header */
+  top: 158px; /* ระยะห่างจากด้านบน ตามความสูงของ .header */
   margin-right: auto;
-  margin-left: -5px;
+  margin-left: 2px;
   margin-bottom: auto; /* ยกเลิก margin ด้านล่าง */
 }
 
