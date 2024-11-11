@@ -14,24 +14,136 @@ export interface User {
 }
 
 export interface Category {
+  id: string;
+
   name: string;
 }
 
 export interface Post {
+  id: string;
   title: string;
-  author: {
-    username: string;
-    photo?: string;
-  };
-  truncatedContent: string;
-  fullContent: string;
-  contentWordCount: number;
-  isExpanded: boolean; // Property for toggling expanded view
-  comments: string[];
-  photoUrl?: string;
-  datePosted: Date; // Date of post
-  createdAt: string; 
   content: string;
+  file: null | string;
+  authorId: string;
+  categoryId: string;
+  createdAt: string;
+  author: Author;
+  category: Category;
+  comments: Comment[];
+  datePosted?: string;  // เพิ่ม datePosted
+  contentWordCount?: number;  // เพิ่ม contentWordCount
+  isExpanded?: boolean;  // เพิ่ม isExpanded
+  photoUrl?: string;
+}
+
+interface Comment {
+  id: string;
+  content: string;
+  authorId: string;
+  postId: string;
+  createdAt: string;
+}
+
+interface Author {
+  id: string;
+  username: string;
+  email: string;
+  password: string;
+  photo: string;
+  role: string;
+  createdAt: string;
+}
+
+interface posts {
+  id: string;
+  title: string;
+  content: string;
+  file: null | string;
+  authorId: string;
+  categoryId: string;
+  createdAt: string;
+  author: Author;
+  category: Category;
+  comments: Comment[];
+  photoUrl: null | string;
+}
+
+interface Comment {
+  id: string;
+  content: string;
+  authorId: string;
+  postId: string;
+  createdAt: string;
+  author: Author2;
+}
+
+interface Author2 {
+  id: string;
+  username: string;
+  email: string;
+  password: string;
+  photo: null | null | string | string;
+  role: string;
+  createdAt: string;
+}
+
+interface Author {
+  id: string;
+  username: string;
+  email: string;
+  password: string;
+  photo: string;
+  role: string;
+  createdAt: string;
+}
+
+interface posts {
+  id: string;
+  title: string;
+  content: string;
+  file: null | string;
+  authorId: string;
+  categoryId: string;
+  createdAt: string;
+  author: Author;
+  category: Category;
+  comments: Comment[];
+  photoUrl: null | string;
+}
+
+interface Comment {
+  id: string;
+  content: string;
+  authorId: string;
+  postId: string;
+  createdAt: string;
+  author: Author2;
+}
+
+interface Author2 {
+  id: string;
+  username: string;
+  email: string;
+  password: string;
+  photo: null | string | string;
+  role: string;
+  createdAt: string;
+}
+
+// interface Category {
+//   id: string;
+//   name: string;
+//   createdAt: string;
+// }
+
+interface Author {
+  id: string;
+  username: string;
+  email: string;
+  password: string;
+  photo: string;
+  role: string;
+  createdAt: string;
 }
 
 @Injectable({

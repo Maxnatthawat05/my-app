@@ -15,9 +15,6 @@ import { EditPostComponent } from './edit-post/edit-post.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 
-
-
-
 @NgModule({
   declarations: [
     AppComponent,

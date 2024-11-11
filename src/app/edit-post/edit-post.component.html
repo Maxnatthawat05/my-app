@@ -1,47 +1,44 @@
-<div class="header">
-  <h1>โพสต์กระทู้ของฉัน</h1>
+<button (click)="openAddPostForm()">เพิ่มโพสต์</button>
+
+<!-- แบบฟอร์มเพิ่มโพสต์ -->
+<div *ngIf="isAdding" class="add-post-form">
+  <h3>เพิ่มโพสต์ใหม่</h3>
+  <label for="newTitle">หัวข้อ:</label>
+  <input id="newTitle" [(ngModel)]="newPost.title" type="text" />
+  
+  <label for="newContent">เนื้อหา:</label>
+  <textarea id="newContent" [(ngModel)]="newPost.content"></textarea>
+  
+  <!-- เลือกหมวดหมู่ -->
+  <label for="category">หมวดหมู่:</label>
+  <select id="category" [(ngModel)]="newPost.categoryId">
+    <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
+  </select>
+  
+  <button (click)="saveNewPost()">บันทึกโพสต์</button>
+  <button (click)="cancelAddPost()">ยกเลิก</button>
 </div>
-<div class="container">
-<!-- Show Add Post button when not editing or adding a post -->
-<div *ngIf="isEditing === 'none'">
-  <button class="add-post-button" (click)="startAddPost()">เพิ่มกระทู้</button>
-  <div class="post-list">
-    <div *ngFor="let post of posts; let i = index" class="post-item">
-      <h3>{{ post.title }}</h3>
-      <p>{{ post.category }}</p>
-      <button class="edit-button" (click)="startEditPost(i)">แก้ไข</button>
-      <button class="delete-button" (click)="deletePost(i)">ลบ</button>
-    </div>
+
+
+
+<div *ngFor="let post of posts; let i = index">
+
+  <div class="post-card">
+    <h3>{{ post.title }}</h3>
+    <p>{{ post.content }}</p>
+    <!-- ปุ่มแก้ไข -->
+    <button (click)="editPost(post)">แก้ไขโพสต์</button>
+    <button (click)="deletePost(post.id)">ลบโพสต์</button>
   </div>
 </div>
 
-<!-- Form for adding/editing posts -->
-<form *ngIf="isEditing !== 'none'" (ngSubmit)="onSave()" class="post-form">
-  <div class="form-group">
-    <label for="category">หมวดหมู่</label>
-    <select id="category" name="category" [(ngModel)]="post.category" required>
-      <option value="funny">หนังตลก</option>
-      <option value="action">หนังแอคชั่น</option>
-      <option value="horror">หนังผี</option>
-    </select>
-  </div>
-  <div class="form-group">
-    <label for="title">ชื่อกระทู้</label>
-    <input type="text" id="title" name="title" [(ngModel)]="post.title" placeholder="กรอกชื่อกระทู้" required>
-  </div>
-  <div class="form-group">
-    <label for="content">เนื้อหา</label>
-    <textarea id="content" name="content" [(ngModel)]="post.content" placeholder="กรุณาพิมพ์เนื้อหาของกระทู้ที่นี่" required></textarea>
-  </div>
-  <div class="form-group">
-    <label for="file">ไฟล์แนบ</label>
-    <input type="file" id="file" (change)="onFileSelected($event)" class="file-input">
-  </div>
-
-  <!-- Save button -->
-  <button type="submit" class="save-button">บันทึก</button>
-
-  <!-- Cancel button -->
-  <button type="button" class="cancel-button" (click)="goBack()">ยกเลิก</button>
-</form>
+<!-- แบบฟอร์มแก้ไขโพสต์ -->
+<div *ngIf="isEditing" class="edit-post-form">
+  <h3>แก้ไขโพสต์</h3>
+  <label for="title">หัวข้อ:</label>
+  <input id="title" [(ngModel)]="selectedPost.title" type="text" />
+  <label for="content">เนื้อหา:</label>
+  <textarea id="content" [(ngModel)]="selectedPost.content"></textarea>
+  <button (click)="savePost()">บันทึกการแก้ไข</button>
+  <button (click)="cancelEdit()">ยกเลิก</button>
 </div>

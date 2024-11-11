@@ -9,124 +9,119 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrls: ['./category-management.component.css']
 })
 export class CategoryManagementComponent implements OnInit {
-  categories: string[] = []; // รายการหมวดหมู่ที่มีอยู่
-  newCategoryName: string = ''; // ตัวแปรเก็บชื่อหมวดหมู่ใหม่
-  categoryToEdit: string | null = null; // หมวดหมู่ที่กำลังแก้ไข
-  isEditing: boolean = false; // ตัวแปรเพื่อแสดงแบบฟอร์มแก้ไขหมวดหมู่
+  categories: Category[] = []; // List of existing categories
+  newCategoryName: string = ''; // New category name
+  categoryToEdit: Category | null = null; // Category being edited
+  isEditing: boolean = false; // Toggle for showing edit form
 
-  // Inject ApiService เข้าไปใน constructor
   constructor(private apiService: ApiService, private router: Router) {}
 
-  // Implement ngOnInit to call getCategories on component initialization
   ngOnInit(): void {
-    this.getCategories();  // เรียกใช้งานฟังก์ชัน getCategories
+    this.getCategories();
   }
-  
 
-  // ฟังก์ชันเพิ่มหมวดหมู่ใหม่
+  // Add new category
   addNewCategory() {
-    const newCategory: Category = { name: this.newCategoryName };
-
+    const newCategory: Category = { id: '', name: this.newCategoryName };
     const token = localStorage.getItem('accessToken');
     
     if (!token) {
-      alert('กรุณาเข้าสู่ระบบก่อน');
+      alert('Please log in first');
       return;
     }
 
     this.apiService.addCategory(newCategory).subscribe(
       (response: any) => {
-        console.log('หมวดหมู่ถูกเพิ่มแล้ว', response);
-        this.getCategories(); // Refresh categories list
-        this.newCategoryName = ''; // เคลียร์ชื่อหมวดหมู่หลังจากเพิ่ม
+        console.log('Category added:', response);
+        this.getCategories();
+        this.newCategoryName = ''; // Clear input after adding
       },
       (error: HttpErrorResponse) => {
-        console.error('เกิดข้อผิดพลาดในการเพิ่มหมวดหมู่', error);
+        console.error('Error adding category:', error);
       }
     );
   }
 
-  // ฟังก์ชันลบหมวดหมู่
+  // Remove category
   removeCategory(categoryName: string) {
     const token = localStorage.getItem('accessToken');
     
     if (!token) {
-      alert('กรุณาเข้าสู่ระบบก่อน');
+      alert('Please log in first');
       return;
     }
 
     this.apiService.deleteCategory(categoryName).subscribe(
       (response: any) => {
-        console.log('หมวดหมู่ถูกลบแล้ว', response);
-        this.getCategories(); // Refresh categories list
+        console.log('Category deleted:', response);
+        this.getCategories();
       },
       (error: HttpErrorResponse) => {
-        console.error('เกิดข้อผิดพลาดในการลบหมวดหมู่', error);
+        console.error('Error deleting category:', error);
       }
     );
   }
 
-  // ฟังก์ชันดึงข้อมูลหมวดหมู่
+  // Fetch all categories
   getCategories() {
     const token = localStorage.getItem('accessToken');
     
     if (!token) {
-      alert('กรุณาเข้าสู่ระบบก่อน');
+      alert('Please log in first');
       return;
     }
 
     this.apiService.getCategories().subscribe(
       (categories: Category[]) => {
-        this.categories = categories.map(category => category.name);
-        console.log('หมวดหมู่ทั้งหมด:', this.categories);
+        this.categories = categories;
+        console.log('All categories:', this.categories);
       },
       (error: HttpErrorResponse) => {
-        console.error('เกิดข้อผิดพลาดในการดึงข้อมูลหมวดหมู่', error);
+        console.error('Error fetching categories:', error);
       }
     );
   }
 
-  // ฟังก์ชันแก้ไขหมวดหมู่
-  editCategory(category: string) {
-    this.newCategoryName = category;
+  // Edit category
+  editCategory(category: Category) {
+    this.newCategoryName = category.name;
     this.isEditing = true;
     this.categoryToEdit = category;
   }
 
-  // ฟังก์ชันอัปเดตหมวดหมู่
+  // Update category
   updateCategory() {
     if (!this.newCategoryName.trim()) {
-      alert('กรุณากรอกชื่อหมวดหมู่');
+      alert('Please enter a category name');
       return;
     }
 
-    const index = this.categories.indexOf(this.categoryToEdit!);
-    if (index > -1) {
-      const updatedCategory: Category = { name: this.newCategoryName.trim() };
+    const updatedCategory: Category = {
+      id: this.categoryToEdit?.id || '',
+      name: this.newCategoryName.trim()
+    };
 
-      const token = localStorage.getItem('accessToken');
-      if (!token) {
-        alert('กรุณาเข้าสู่ระบบก่อน');
-        return;
-      }
-
-      // เรียกใช้งานฟังก์ชัน updateCategory จาก ApiService
-      this.apiService.updateCategory(updatedCategory, this.categoryToEdit!).subscribe(
-        (response: any) => {
-          console.log('หมวดหมู่ถูกอัปเดตแล้ว', response);
-          this.categories[index] = this.newCategoryName.trim();
-          this.newCategoryName = '';
-          this.isEditing = false;
-          this.categoryToEdit = null;
-        },
-        (error: HttpErrorResponse) => {
-          console.error('เกิดข้อผิดพลาดในการอัปเดตหมวดหมู่', error);
-        }
-      );
+    const token = localStorage.getItem('accessToken');
+    if (!token) {
+      alert('Please log in first');
+      return;
     }
+
+    this.apiService.updateCategory(updatedCategory, updatedCategory.id).subscribe(
+      (response: any) => {
+        console.log('Category updated:', response);
+        this.getCategories(); // Refresh categories list
+        this.newCategoryName = '';
+        this.isEditing = false;
+        this.categoryToEdit = null;
+      },
+      (error: HttpErrorResponse) => {
+        console.error('Error updating category:', error);
+      }
+    );
   }
 
-  // ฟังก์ชันสำหรับการกลับไปที่ dashboard
+  // Navigate back to the dashboard
   goBack() {
     this.router.navigate(['/dashboard']);
   }
