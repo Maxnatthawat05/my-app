@@ -3,7 +3,7 @@
 </div>
 <div class="container">
   <div class="user-icon">
-    <img [src]="'http://192.168.11.221:8080/uploads/' +user.profilePicUrl || 'assets/image4.jpg'" alt="User Icon" class="icon">
+    <img [src]="user.profilePicUrl ? 'http://192.168.11.221:8080/uploads/' + user.profilePicUrl : 'assets/image4.jpg'" alt="User Icon" class="icon">
   </div>
   <div *ngIf="!isEditing">
     <div class="profile-info">
@@ -27,13 +27,16 @@
   
       <div class="form-group">
         <label for="password">รหัสผ่าน</label>
-        <input type="password" id="password" [(ngModel)]="user.password"  name="password" required>
+        <input type="password" id="password" [(ngModel)]="newPassword" name="password" required>
       </div>
   
       <div class="form-group">
         <label for="profilePic">อัพโหลดรูปโปรไฟล์</label>
-        <input type="file" id="profilePic" (change)="onFileSelected($event)">
+        <input type="file" id="profilePic" ng2FileSelect [uploader]="uploader" [multiple]="false"
+        (onFileSelected)="onFileSelected()">
       </div>
+      <button (click)="uploadFile()" [disabled]="!file">อัพโหลด</button>
+      <p *ngIf="fileName">ชื่อไฟล์: {{ fileName }}</p>
   
       <div class="button-group">
         <button type="button" (click)="goBack()">ยกเลิก</button>
@@ -42,5 +45,3 @@
     </form>
   </div>
 </div>
-
-

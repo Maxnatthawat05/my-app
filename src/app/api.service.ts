@@ -97,20 +97,6 @@ interface Author {
   createdAt: string;
 }
 
-interface posts {
-  id: string;
-  title: string;
-  content: string;
-  file: null | string;
-  authorId: string;
-  categoryId: string;
-  createdAt: string;
-  author: Author;
-  category: Category;
-  comments: Comment[];
-  photoUrl: null | string;
-}
-
 interface Comment {
   id: string;
   content: string;
@@ -274,8 +260,12 @@ export class ApiService {
     return throwError(errorMessage);
   }
 
-  uploadProfilePic(formData: FormData): Observable<any> {
-    const headers = new HttpHeaders();
-    return this.http.post(this.apiUserUrl, formData, { headers });
+
+  updateProfileWithImage(formData: FormData): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+    });
+    console.log(formData);
+    return this.http.put(`${this.apiUserUrl}`, formData, { headers });
   }
 }
