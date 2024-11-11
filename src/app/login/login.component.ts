@@ -50,7 +50,7 @@ export class LoginComponent {
           const userId = response.userid;  // ใช้ `userid` ที่ได้รับจาก API
           const username = response.username;
           const email = response.emailL || response.email;  // คำนึงถึงชื่อคีย์ใน API ("emailL" ในที่นี้)
-          const profilePicUrl = response.profilePicUrl || 'assets/image4.jpg';
+          const profilePicUrl = response.photo || 'assets/image4.jpg';
   
           // เก็บข้อมูลลงใน localStorage
           localStorage.setItem('accessToken', token);

@@ -47,7 +47,7 @@ export class EditProfileComponent implements OnInit {
   onSave() {
     const updatedData: User = {
       ...this.user,
-      ...(this.newPassword && { password: this.newPassword })  // Include password only if newPassword is non-empty
+      ...(this.newPassword && { password: this.newPassword }) // Include only if newPassword is provided
     };
 
     this.apiService.updateProfile(updatedData).subscribe(
@@ -56,6 +56,7 @@ export class EditProfileComponent implements OnInit {
         localStorage.setItem('username', updatedData.username!);
         localStorage.setItem('profilePicUrl', updatedData.profilePicUrl || 'assets/image4.jpg');
         this.isEditing = false;
+        this.newPassword = ''; // Clear the temporary password variable
       },
       (error) => console.error('Error updating profile:', error)
     );
@@ -64,16 +65,20 @@ export class EditProfileComponent implements OnInit {
   onFileSelected(event: any) {
     const file = event.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.user.profilePicUrl = reader.result as string;
-        // ส่งข้อมูลอัพเดตไปยังเซิร์ฟเวอร์เพื่ออัพเดตโปรไฟล์
-        this.apiService.updateProfile({ profilePicUrl: this.user.profilePicUrl }).subscribe(
-          () => console.log('Profile picture updated successfully'),
-          (error) => console.error('Error updating profile picture:', error)
-        );
-      };
-      reader.readAsDataURL(file);
+      const formData = new FormData();
+      formData.append('profilePic', file, file.name);
+  
+      // Send the FormData to the server
+      this.apiService.uploadProfilePic(formData).subscribe(
+        (response) => {
+          console.log('Profile picture updated successfully', response);
+          // You can optionally update the UI here with the new profile picture URL.
+        },
+        (error) => {
+          console.error('Error updating profile picture:', error);
+        }
+      );
     }
   }
+  
 }

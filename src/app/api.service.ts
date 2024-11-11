@@ -10,7 +10,7 @@ export interface User {
   username?: string;
   email?: string;
   password?: string; // Make password optional
-  profilePicUrl?: string;
+  profilePicUrl?: string ;
 }
 
 export interface Category {
@@ -130,12 +130,6 @@ interface Author2 {
   createdAt: string;
 }
 
-// interface Category {
-//   id: string;
-//   name: string;
-//   createdAt: string;
-// }
-
 interface Author {
   id: string;
   username: string;
@@ -156,6 +150,8 @@ export class ApiService {
   private apiPostsUrl = 'http://192.168.11.221:3001/api/posts';
   private apiUserUrl = 'http://192.168.11.221:3001/user/users'; // User API endpoint
   private apiCommentsUrl = 'http://192.168.11.221:3001/comment/comments'; // Ensure this is the correct URL
+  
+
 
   constructor(private http: HttpClient) { }
 
@@ -276,5 +272,10 @@ export class ApiService {
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
     return throwError(errorMessage);
+  }
+
+  uploadProfilePic(formData: FormData): Observable<any> {
+    const headers = new HttpHeaders();
+    return this.http.post(this.apiUserUrl, formData, { headers });
   }
 }
