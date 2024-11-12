@@ -57,6 +57,7 @@ export class EditPostComponent implements OnInit {
   ngOnInit(): void {
     const token = localStorage.getItem('accessToken');
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    
 
     // เรียก API เพื่อดึงข้อมูลโพสต์
     this.http.get<Post[]>('http://192.168.11.221:3001/post/posts/user', { headers })
@@ -137,29 +138,30 @@ export class EditPostComponent implements OnInit {
     const userId = localStorage.getItem('userId') || '';   // Retrieve userId from localStorage
     const formData = new FormData();
   
-    // Add post data
     formData.append('title', this.newPost.title);
     formData.append('content', this.newPost.content);
-    formData.append('categoryId', this.newPost.categoryId);  // Ensure categoryId is available
-    formData.append('authorId', userId);  // Add authorId to the form data
-  
-    // Check and append file if it exists
+    formData.append('categoryId', this.newPost.categoryId);  
+    formData.append('authorId', userId);  
+
     if (this.newPost.file) {
       formData.append('file', this.newPost.file);
-    }
-  
-    // Make the API request to save the new post
+    } else {
+      formData.append('file', '');
+}
+
+
+
     this.http.post<Post>('http://192.168.11.221:3001/post/posts', formData, { headers })
       .subscribe(
         (newPost) => {
-          this.posts.push(newPost);  // Add new post to posts array
-          this.isAdding = false;  // Close the form
+          this.posts.push(newPost); 
+          this.isAdding = false; 
           this.newPost = {
             title: '',
             content: '',
             file: null,
-            authorId: '',  // Reset authorId
-            categoryId: '',  // Reset categoryId
+            authorId: '',  
+            categoryId: '',  
           };
         },
         (error) => {
@@ -174,4 +176,13 @@ export class EditPostComponent implements OnInit {
     this.isAdding = false;
     this.newPost = null;
   }
+
+  onFileSelected(event: Event) {
+    console.log(event);
+  const input = event.target as HTMLInputElement;
+  if (input.files && input.files[0]) {
+    const file = input.files[0];
+    this.newPost.file = file; 
+  }
+}
 }
