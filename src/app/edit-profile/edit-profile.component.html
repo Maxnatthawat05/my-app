@@ -3,43 +3,45 @@
 </div>
 <div class="container">
   <div class="user-icon">
-    <img [src]="user.profilePicUrl || 'assets/image4.jpg'" alt="User Icon" class="icon">
+    <img [src]="user.photoUrl ? 'http://192.168.11.221:8080' + user.photoUrl : 'assets/image4.jpg'" alt="User Icon" class="icon">
   </div>
-</div>
-
-<div *ngIf="!isEditing">
-  <div class="profile-info">
-    <p><strong>ชื่อผู้ใช้:</strong> {{ user.username }}</p>
-    <p><strong>อีเมล:</strong> {{ user.email }}</p>
+  <div *ngIf="!isEditing">
+    <div class="profile-info">
+      <p><strong>ชื่อผู้ใช้:</strong> {{ user.username }}</p>
+      <p><strong>อีเมล:</strong> {{ user.email }}</p>
+    </div>
+    <button class="edit-button" (click)="onEdit()">แก้ไขโปรไฟล์</button>
   </div>
-  <button class="edit-button" (click)="onEdit()">แก้ไขโปรไฟล์</button>
-</div>
-
-<div *ngIf="isEditing">
-  <form (ngSubmit)="onSave()">
-    <div class="form-group">
-      <label for="username">ชื่อผู้ใช้</label>
-      <input type="text" id="username" [(ngModel)]="user.username" name="username" required>
-    </div>
-
-    <div class="form-group">
-      <label for="email">อีเมล</label>
-      <input type="email" id="email" [(ngModel)]="user.email" name="email" required>
-    </div>
-
-    <div class="form-group">
-      <label for="password">รหัสผ่าน</label>
-      <input type="password" id="password" [(ngModel)]="user.password" name="password" required>
-    </div>
-
-    <div class="form-group">
-      <label for="profilePic">อัพโหลดรูปโปรไฟล์</label>
-      <input type="file" id="profilePic" (change)="onFileSelected($event)">
-    </div>
-
-    <div class="button-group">
-      <button type="button" (click)="goBack()">ยกเลิก</button>
-      <button type="submit">บันทึก</button>
-    </div>
-  </form>
+  
+  <div *ngIf="isEditing">
+    <form (ngSubmit)="onSave()">
+      <div class="form-group">
+        <label for="username">ชื่อผู้ใช้</label>
+        <input type="text" id="username" [(ngModel)]="user.username" name="username" required>
+      </div>
+  
+      <div class="form-group">
+        <label for="email">อีเมล</label>
+        <input type="email" id="email" [(ngModel)]="user.email" name="email" required>
+      </div>
+  
+      <div class="form-group">
+        <label for="password">รหัสผ่าน</label>
+        <input type="password" id="password" [(ngModel)]="newPassword" name="password" required>
+      </div>
+  
+      <div class="form-group">
+        <label for="profilePic">อัพโหลดรูปโปรไฟล์</label>
+        <input type="file" id="profilePic" ng2FileSelect [uploader]="uploader" [multiple]="false"
+        (onFileSelected)="onFileSelected()">
+      </div>
+      <button (click)="uploadFile()" [disabled]="!file">อัพโหลด</button>
+      <p *ngIf="fileName">ชื่อไฟล์: {{ fileName }}</p>
+  
+      <div class="button-group">
+        <button type="button" (click)="goBack()">ยกเลิก</button>
+        <button type="submit">บันทึก</button>
+      </div>
+    </form>
+  </div>
 </div>

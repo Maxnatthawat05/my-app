@@ -1,78 +1,188 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+export interface Post {
+  id: string;
+  title: string;
+  content: string;
+  file: null | string;
+  authorId: string;
+  categoryId: string;
+  createdAt: string;
+  author: Author;
+  category: Category;
+  comments: Comment[];
+}
+
+interface Comment {
+  id: string;
+  content: string;
+  authorId: string;
+  postId: string;
+  createdAt: string;
+}
+
+interface Category {
+  id: string;
+  name: string;
+  createdAt: string;
+}
+
+interface Author {
+  id: string;
+  username: string;
+  email: string;
+  password: string;
+  photo: string;
+  role: string;
+  createdAt: string;
+}
 
 @Component({
   selector: 'app-edit-post',
   templateUrl: './edit-post.component.html',
   styleUrls: ['./edit-post.component.css']
 })
-export class EditPostComponent {
-  posts = [
-    { title: 'หนังตลกที่น่าสนใจ', category: 'funny', content: 'เนื้อหาหนังตลก' },
-    { title: 'หนังแอคชั่นมันส์สุด', category: 'action', content: 'เนื้อหาหนังแอคชั่น' },
-  ];
+export class EditPostComponent implements OnInit {
 
-  post = {
-    title: '',
-    category: 'funny',
-    content: ''
-  };
+  posts: Post[] = [];
+  categories: Category[] = [];  // เพิ่มตัวแปรเก็บหมวดหมู่
+  isEditing = false;
+  isAdding = false;
+  newPost: any = null;
+  selectedPost: any = null;
 
-  // Correcting the type to allow 'none', 'edit', and 'add'
-  isEditing: 'none' | 'edit' | 'add' = 'none';
- // Default to 'none' (view mode)
-  editingIndex: number | null = null;
+  constructor(private http: HttpClient) { }
 
-  // Method to return the header text based on the editing state
-  getHeaderText(): string {
-    if (this.isEditing === 'add') {
-      return 'เพิ่มกระทู้ใหม่';  // Adding a new post
-    } else if (this.isEditing === 'edit') {
-      return 'แก้ไขกระทู้';  // Editing an existing post
+  ngOnInit(): void {
+    const token = localStorage.getItem('accessToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    
+
+    // เรียก API เพื่อดึงข้อมูลโพสต์
+    this.http.get<Post[]>('http://192.168.11.221:3001/post/posts/user', { headers })
+      .subscribe(
+        posts => {
+          this.posts = posts;
+        },
+        error => {
+          console.error('Error fetching posts:', error);
+        }
+      );
+
+    // เรียก API เพื่อดึงข้อมูลหมวดหมู่
+    this.http.get<Category[]>('http://192.168.11.221:3001/category/categories', { headers })
+      .subscribe(
+        categories => {
+          this.categories = categories;  // เก็บข้อมูลหมวดหมู่ลงในตัวแปร categories
+        },
+        error => {
+          console.error('Error fetching categories:', error);
+        }
+      );
+  }
+
+  editPost(post: any) {
+    this.selectedPost = { ...post };
+    this.isEditing = true;
+  }
+
+  savePost() {
+    const token = localStorage.getItem('accessToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    this.http.put<Post>(`http://192.168.11.221:3001/post/posts/${this.selectedPost.id}`, this.selectedPost, { headers })
+      .subscribe(
+        updatedPost => {
+          const index = this.posts.findIndex(post => post.id === updatedPost.id);
+          if (index !== -1) {
+            this.posts[index] = updatedPost;
+          }
+          this.isEditing = false;
+          this.selectedPost = null;
+        },
+        error => {
+          console.error('Error updating post:', error);
+        }
+      );
+  }
+
+  cancelEdit() {
+    this.isEditing = false;
+    this.selectedPost = null;
+  }
+
+  deletePost(postId: string) {
+    const token = localStorage.getItem('accessToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    this.http.delete(`http://192.168.11.221:3001/post/posts/${postId}`, { headers })
+      .subscribe(
+        () => {
+          this.posts = this.posts.filter(post => post.id !== postId);
+        },
+        error => {
+          console.error('Error deleting post:', error);
+        }
+      );
+  }
+
+  openAddPostForm() {
+    this.isAdding = true;
+    this.newPost = { ...this.newPost, title: '', content: '', categoryId: '' };  // รีเซ็ตข้อมูลโพสต์ใหม่
+  }
+
+  saveNewPost() {
+    const token = localStorage.getItem('accessToken');
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const userId = localStorage.getItem('userId') || '';   // Retrieve userId from localStorage
+    const formData = new FormData();
+  
+    formData.append('title', this.newPost.title);
+    formData.append('content', this.newPost.content);
+    formData.append('categoryId', this.newPost.categoryId);  
+    formData.append('authorId', userId);  
+
+    if (this.newPost.file) {
+      formData.append('file', this.newPost.file);
     } else {
-      return 'รายการกระทู้';  // Viewing the list of posts
-    }
+      formData.append('file', '');
+}
+
+
+
+    this.http.post<Post>('http://192.168.11.221:3001/post/posts', formData, { headers })
+      .subscribe(
+        (newPost) => {
+          this.posts.push(newPost); 
+          this.isAdding = false; 
+          this.newPost = {
+            title: '',
+            content: '',
+            file: null,
+            authorId: '',  
+            categoryId: '',  
+          };
+        },
+        (error) => {
+          console.error('Error saving new post:', error);
+          console.log(this.newPost);  // Log current newPost state for debugging
+        }
+      );
+  }
+  
+
+  cancelAddPost() {
+    this.isAdding = false;
+    this.newPost = null;
   }
 
-  // Switch to adding a new post
-  startAddPost() {
-    this.isEditing = 'add';  // Set state to 'add'
-    this.post = { title: '', category: 'funny', content: '' };
-    this.editingIndex = null;
+  onFileSelected(event: Event) {
+    console.log(event);
+  const input = event.target as HTMLInputElement;
+  if (input.files && input.files[0]) {
+    const file = input.files[0];
+    this.newPost.file = file; 
   }
-
-  // Switch to editing an existing post
-  startEditPost(index: number) {
-    this.isEditing = 'edit';  // Set state to 'edit'
-    this.editingIndex = index;
-    this.post = { ...this.posts[index] };
-  }
-
-  // Save the post (new or updated)
-  onSave() {
-    if (this.editingIndex === null) {
-      this.posts.push({ ...this.post });
-    } else {
-      this.posts[this.editingIndex] = { ...this.post };
-    }
-
-    this.isEditing = 'none';  // Switch back to 'none' (view mode)
-  }
-
-  // Delete a post
-  deletePost(index: number) {
-    this.posts.splice(index, 1);
-  }
-
-  // Go back (this can be customized to navigate or reset state)
-  goBack() {
-    this.isEditing = 'none';  // Switch back to 'none' (view mode)
-  }
-
-  // Handle file selection
-  onFileSelected(event: any) {
-    const file = event.target.files[0];
-    if (file) {
-      // Handle file upload logic here
-    }
-  }
+}
 }

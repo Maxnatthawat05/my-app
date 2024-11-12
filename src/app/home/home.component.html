@@ -7,15 +7,15 @@
   <div class="content">
     
     <!-- Sidebar สำหรับหมวดหมู่ -->
-    <div class="sidebar">
+    <!-- <div class="sidebar">
       <h3>หมวดหมู่</h3>
       <ul>
-        <!-- ใช้ *ngFor เพื่อแสดงรายการหมวดหมู่ -->
-        <li *ngFor="let category of categories">
+         ใช้ *ngFor เพื่อแสดงรายการหมวดหมู่ -->
+        <!-- <li *ngFor="let category of categories">
           <a href="#" (click)="selectCategory(category.name)">{{ category.name }}</a>
         </li>
       </ul>
-    </div>
+    </div> --> 
 
     <!-- Main Section -->
     <div class="main-section">
@@ -37,8 +37,7 @@
         <div *ngFor="let post of posts; let i = index" class="post">
           <!-- แสดงรูปภาพจาก URL ที่ดึงมาจาก API -->
           <img [src]="'http://192.168.11.221:8080' + post.photoUrl" alt="Post Image" class="post-image" *ngIf="post.photoUrl">
-
-          
+      
           <!-- แสดงชื่อโพสต์ -->
           <h2>{{ post.title }}</h2>
           
@@ -46,10 +45,10 @@
           <p>ผู้เขียน: {{ post.author.username }}</p>
           
           <!-- แสดงวันที่โพสต์ -->
-          <p>โพสต์เมื่อ: {{ post.datePosted | date: 'dd/MM/yyyy HH:mm' }}</p>
+          <p>โพสต์เมื่อ: {{ post.createdAt | date: 'dd/MM/yyyy HH:mm' }}</p>
           
           <!-- แสดงเนื้อหาของโพสต์ -->
-          <p *ngIf="post.contentWordCount < 100; else moreContent" [class.expanded]="post.isExpanded">
+          <p *ngIf="posts.length  < 100; else moreContent" [class.expanded]="post.isExpanded">
             {{ post.isExpanded ? post.content : post.content?.substring(0, 100)  }}
           </p>
           
@@ -59,19 +58,19 @@
             </p>
           </ng-template>
           
-          <button *ngIf="post.contentWordCount > 20" (click)="toggleContent(i)">
+          <button *ngIf="post.content.length > 20" (click)="toggleContent(i)">
             {{ post.isExpanded ? 'ซ่อนเนื้อหา' : 'อ่านเพิ่มเติม' }}
           </button>
         
-          <!-- ส่วนแสดงคอมเมนต์ด้วยอิโมจิ -->
           <div class="emoji-comments">
             <span (click)="showCommentModal(i)">💬</span>
           </div>
+      
+
+          <button *ngIf="isAdmin()" (click)="banUser(post.author.id)">แบนผู้ใช้</button>
         </div>
       </div>
       
-      
-
       <!-- ปุ่มกลับไปด้านบน -->
       <button class="back-to-top" (click)="scrollToTop()">กลับไปด้านบน</button>
     </div>

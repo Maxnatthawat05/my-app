@@ -2,6 +2,9 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+
+import { FileUploadModule } from 'ng2-file-upload';
+
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -13,9 +16,6 @@ import { CategoryManagementComponent } from './category-management/category-mana
 import { ThreadsComponent } from './threads/threads.component';
 import { EditPostComponent } from './edit-post/edit-post.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
-
-
-
 
 
 @NgModule({
@@ -35,7 +35,8 @@ import { EditProfileComponent } from './edit-profile/edit-profile.component';
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    FileUploadModule
   ],
   providers: [],
   bootstrap: [AppComponent]

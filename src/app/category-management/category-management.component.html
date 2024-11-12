@@ -22,12 +22,12 @@
   <h3>หมวดหมู่ที่มีอยู่</h3>
   <ul>
     <li *ngFor="let category of categories">
-      <span>{{ category }}</span>
+      <span>{{ category.name }}</span>
       <div class="action-buttons">
         <!-- ปุ่มแก้ไข -->
         <button (click)="editCategory(category)">แก้ไข</button>
         <!-- ปุ่มลบ -->
-        <button (click)="removeCategory(category)">ลบ</button>
+        <button (click)="removeCategory(category.id)">ลบ</button>
       </div>
     </li>
   </ul>

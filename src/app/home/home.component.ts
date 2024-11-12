@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ApiService, Category, Post } from '../api.service'; // นำเข้า ApiService
+import { ApiService, Category, Post } from '../api.service'; 
 
 @Component({
   selector: 'app-home',
@@ -15,7 +15,7 @@ export class HomeComponent implements OnInit {
   selectedPost: any = {};
 
   categories: Category[] = [];
-  posts: Post[] = []; // ปรับ posts เป็นแบบ dynamic โดยใช้ข้อมูลจาก API
+  posts: Post[] = [];
 
   constructor(private router: Router, private apiService: ApiService) {}
 
@@ -81,28 +81,26 @@ export class HomeComponent implements OnInit {
   // home.component.ts
 
   addComment() {
-    const userId = localStorage.getItem('userId');  // Retrieve userId from localStorage
-    const postId = this.selectedPost.id;            // The postId is from the selected post
+    const userId = localStorage.getItem('userId');  
+    const postId = this.selectedPost.id;          
   
     if (!userId || !postId) {
-      console.error('Missing authorId or postId');  // Check if userId or postId is missing
-      return;  // Prevent sending the comment if ids are missing
+      console.error('Missing authorId or postId');
+      return; 
     }
   
     if (this.newComment.trim()) {
       const comment = {
         content: this.newComment.trim(),
-        authorId: userId,  // Use userId as authorId
-        postId: postId     // Use the selected post's id
+        authorId: userId,  
+        postId: postId     
       };
   
-      // Log the payload for debugging
       console.log('Comment Payload:', comment);
   
-      // Call the ApiService with the necessary data
+
       this.apiService.addComment(comment).subscribe(
         (response: any) => {
-          // On success, add the comment to the selected post's comment list
           this.selectedPost.comments.push(response);
           this.newComment = '';  // Reset the comment input field
           this.isCommentModalVisible = false;  // Close the comment modal
@@ -113,8 +111,6 @@ export class HomeComponent implements OnInit {
       );
     }
   }
-  
-
   
   scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -127,4 +123,15 @@ export class HomeComponent implements OnInit {
   logout() {
     this.isLoggedIn = false;
   }
+
+  isAdmin(): boolean {
+    const userRole = localStorage.getItem('role');
+    return userRole === 'ADMIN';  
+  }
+
+  banUser(userId: string) {
+    console.log('Banning user with ID:', userId);
+  }
+  
+  
 }

@@ -10,28 +10,121 @@ export interface User {
   username?: string;
   email?: string;
   password?: string; // Make password optional
-  profilePicUrl?: string;
+  photo?: string ;
+  photoUrl?: string ;
 }
 
 export interface Category {
+  id: string;
+
   name: string;
 }
 
 export interface Post {
+  id: string;
   title: string;
-  author: {
-    username: string;
-    photo?: string;
-  };
-  truncatedContent: string;
-  fullContent: string;
-  contentWordCount: number;
-  isExpanded: boolean; // Property for toggling expanded view
-  comments: string[];
-  photoUrl?: string;
-  datePosted: Date; // Date of post
-  createdAt: string; 
   content: string;
+  file: null | string;
+  authorId: string;
+  categoryId: string;
+  createdAt: string;
+  author: Author;
+  category: Category;
+  comments: Comment[];
+  datePosted?: string;  // เพิ่ม datePosted
+  contentWordCount?: number;  // เพิ่ม contentWordCount
+  isExpanded?: boolean;  // เพิ่ม isExpanded
+  photoUrl?: string;
+}
+
+interface Comment {
+  id: string;
+  content: string;
+  authorId: string;
+  postId: string;
+  createdAt: string;
+}
+
+interface Author {
+  id: string;
+  username: string;
+  email: string;
+  password: string;
+  photo: string;
+  role: string;
+  createdAt: string;
+}
+
+interface posts {
+  id: string;
+  title: string;
+  content: string;
+  file: null | string;
+  authorId: string;
+  categoryId: string;
+  createdAt: string;
+  author: Author;
+  category: Category;
+  comments: Comment[];
+  photoUrl: null | string;
+}
+
+interface Comment {
+  id: string;
+  content: string;
+  authorId: string;
+  postId: string;
+  createdAt: string;
+  author: Author2;
+}
+
+interface Author2 {
+  id: string;
+  username: string;
+  email: string;
+  password: string;
+  photo: null | null | string | string;
+  role: string;
+  createdAt: string;
+}
+
+interface Author {
+  id: string;
+  username: string;
+  email: string;
+  password: string;
+  photo: string;
+  role: string;
+  createdAt: string;
+}
+
+interface Comment {
+  id: string;
+  content: string;
+  authorId: string;
+  postId: string;
+  createdAt: string;
+  author: Author2;
+}
+
+interface Author2 {
+  id: string;
+  username: string;
+  email: string;
+  password: string;
+  photo: null | string | string;
+  role: string;
+  createdAt: string;
+}
+
+interface Author {
+  id: string;
+  username: string;
+  email: string;
+  password: string;
+  photo: string;
+  role: string;
+  createdAt: string;
 }
 
 @Injectable({
@@ -44,6 +137,8 @@ export class ApiService {
   private apiPostsUrl = 'http://192.168.11.221:3001/api/posts';
   private apiUserUrl = 'http://192.168.11.221:3001/user/users'; // User API endpoint
   private apiCommentsUrl = 'http://192.168.11.221:3001/comment/comments'; // Ensure this is the correct URL
+  
+
 
   constructor(private http: HttpClient) { }
 
@@ -164,5 +259,14 @@ export class ApiService {
       errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
     return throwError(errorMessage);
+  }
+
+
+  updateProfileWithImage(formData: FormData): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+    });
+    console.log(formData);
+    return this.http.put(`${this.apiUserUrl}`, formData, { headers });
   }
 }
