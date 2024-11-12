@@ -3,7 +3,7 @@
 </div>
 <div class="container">
   <div class="user-icon">
-    <img [src]="user.profilePicUrl ? 'http://192.168.11.221:8080/uploads/' + user.profilePicUrl : 'assets/image4.jpg'" alt="User Icon" class="icon">
+    <img [src]="user.photoUrl ? 'http://192.168.11.221:8080' + user.photoUrl : 'assets/image4.jpg'" alt="User Icon" class="icon">
   </div>
   <div *ngIf="!isEditing">
     <div class="profile-info">

@@ -14,7 +14,7 @@ export class EditProfileComponent implements OnInit {
     id: '',
     username: localStorage.getItem('username') || '',
     email: localStorage.getItem('email') || '',
-    profilePicUrl: ''
+    photo: ''
   };
   newPassword = '';
   isEditing = false;
@@ -29,7 +29,7 @@ export class EditProfileComponent implements OnInit {
     isHTML5: true,
     headers: [
       {
-        name: 'Authorization', value: 'Bearer '+ 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJvIiwidXNlcklkIjoiNjcyYzE3ZWE2NzBmYjAzMTk3ZmE5ZDBiIiwicm9sZSI6IlVTRVIiLCJpYXQiOjE3MzEyOTAyNTAsImV4cCI6MTczMTM3NjY1MH0.4lsQICzj1yRjLMeB-SfoJfsYvDZ3o7O65pxYJV4Rj_c' // ไม่มีหนิ
+        name: 'Authorization', value: `Bearer ${localStorage.getItem('accessToken')}` // ไม่มีหนิ
       }
     ],
     method: 'PUT', // put sรือ post น่ะ  put ครับ
@@ -57,9 +57,9 @@ export class EditProfileComponent implements OnInit {
     this.apiService.getUserProfile().subscribe(
       (userData: User) => {
         this.user = { ...this.user, ...userData };
-        if (userData.profilePicUrl) {
-          this.user.profilePicUrl = userData.profilePicUrl;
-          localStorage.setItem('profilePicUrl', userData.profilePicUrl);
+        if (userData.photo) {
+          this.user.photo = userData.photo;
+          localStorage.setItem('photo', userData.photo);
         }
       },
       (error) => console.error('Error fetching user profile:', error)
@@ -96,7 +96,7 @@ export class EditProfileComponent implements OnInit {
       (response: any) => { // กำหนดประเภทข้อมูลให้ response
         console.log('Profile updated successfully:', response);
         localStorage.setItem('username', updatedData.username!);
-        localStorage.setItem('profilePicUrl', updatedData.profilePicUrl || 'assets/image4.jpg');
+        localStorage.setItem('photo', updatedData.photo || 'assets/image4.jpg');
         this.isEditing = false;
         this.newPassword = ''; // Clear the temporary password variable
       },

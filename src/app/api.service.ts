@@ -10,7 +10,8 @@ export interface User {
   username?: string;
   email?: string;
   password?: string; // Make password optional
-  profilePicUrl?: string ;
+  photo?: string ;
+  photoUrl?: string ;
 }
 
 export interface Category {
